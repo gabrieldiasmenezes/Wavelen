@@ -1,5 +1,7 @@
 # Wavelen
 
+---
+
 AI-powered music discovery platform that helps users find the perfect song through conversational recommendations and personalized music stories.
 
 ## Tech Stack
