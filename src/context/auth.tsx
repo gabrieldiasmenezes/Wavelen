@@ -2,10 +2,9 @@
 import { 
     createUserWithEmailAndPassword, GoogleAuthProvider, 
     onAuthStateChanged, signInWithEmailAndPassword, 
-    signInWithPopup, signOut, 
-    type AuthError, type User 
+    signInWithPopup, signOut, type User 
 } from "firebase/auth"
-import { createContext, useContext, useEffect, useState, type ReactNode} from "react"
+import { createContext, useEffect, useState, type ReactNode} from "react"
 import { auth } from "../lib/firebase"
 
 interface AuthContextType {
@@ -17,7 +16,7 @@ interface AuthContextType {
     logout: () => Promise<void>
 }
 
-const AuthContext = createContext<AuthContextType | null>(null);
+export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
@@ -53,33 +52,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             {!loading && children}
         </AuthContext.Provider>
     )
-}
-
-export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error('useAuth deve ser usado dentro de AuthProvider')
-  }
-  return context
-}
-
-export function getAuthErrorMessage(error: AuthError): string {
-  switch (error.code) {
-    case 'auth/user-not-found':
-    case 'auth/wrong-password':
-    case 'auth/invalid-credential':
-      return 'Email ou senha incorretos.'
-    case 'auth/email-already-in-use':
-      return 'Este email já está cadastrado.'
-    case 'auth/weak-password':
-      return 'A senha deve ter pelo menos 6 caracteres.'
-    case 'auth/invalid-email':
-      return 'Email inválido.'
-    case 'auth/popup-closed-by-user':
-      return 'Login com Google cancelado.'
-    case 'auth/too-many-requests':
-      return 'Muitas tentativas. Tente novamente em alguns minutos.'
-    default:
-      return 'Ocorreu um erro. Tente novamente.'
-  }
 }

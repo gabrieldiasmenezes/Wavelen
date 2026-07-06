@@ -1,10 +1,11 @@
 import { useState } from "react";
 import type { AuthError } from "firebase/auth";
 import { SoundWave } from "../components/SoundWave";
-import { useAuth, getAuthErrorMessage } from "../context/auth";
 import Input from "../components/Input";
 import { FcGoogle } from "react-icons/fc";
 import LoadingPage from "../components/LoadingPage";
+import getAuthErrorMessage from "../utils/authErrors";
+import useAuth from "../hooks/useAuth";
 
 export default function Auth() {
     const { login,register, loginWithGoogle } = useAuth();
