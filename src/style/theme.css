@@ -1,88 +1,14 @@
-/* ================================
-   Tailwind v4 Theme Tokens
-   Clean Design System
-   ================================ */
-
-@theme inline {
-  /* Typography */
-  --font-heading: var(--font-space-grotesk), var(--font-sans);
-  --font-sans: var(--font-geist-sans), "Geist Fallback";
-  --font-mono: var(--font-geist-mono), "Geist Mono Fallback";
-
-  /* Base Colors */
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-
-  /* Surfaces */
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-
-  /* Brand */
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-
-  /* States */
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-
-  --color-destructive: var(--destructive);
-
-  /* UI */
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  /* Charts */
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-
-  /* Sidebar */
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-
-  /* Radius */
-  --radius-sm: calc(var(--radius) * 0.6);
-  --radius-md: calc(var(--radius) * 0.8);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) * 1.4);
-  --radius-2xl: calc(var(--radius) * 1.8);
-  --radius-3xl: calc(var(--radius) * 2.2);
-  --radius-4xl: calc(var(--radius) * 2.6);
-}
-
-/* ================================
-   Base Theme (Dark)
-   ================================ */
-
 :root {
   color-scheme: dark;
 
   /* Backgrounds */
-  --background: #0f172a;
+  --background: #060e14;
   --foreground: #f8fafc;
 
   --card: #1e293b;
   --card-foreground: #f8fafc;
 
-  --popover: #1e293b;
+  --popover: #1a2331;
   --popover-foreground: #f8fafc;
 
   /* Brand */
