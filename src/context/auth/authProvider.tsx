@@ -4,19 +4,10 @@ import {
     onAuthStateChanged, signInWithEmailAndPassword, 
     signInWithPopup, signOut, type User 
 } from "firebase/auth"
-import { createContext, useEffect, useState, type ReactNode} from "react"
-import { auth } from "../lib/firebase"
+import {  useEffect, useState, type ReactNode} from "react"
+import { auth } from "../../lib/firebase"
+import { AuthContext } from "./authContext"
 
-interface AuthContextType {
-    user: User | null
-    loading: boolean
-    login: (email: string, password: string) => Promise<void>
-    register: (email: string, password: string) => Promise<void>
-    loginWithGoogle: () => Promise<void>
-    logout: () => Promise<void>
-}
-
-export const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
     const [user, setUser] = useState<User | null>(null)
