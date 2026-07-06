@@ -1,5 +1,5 @@
 import LoadingPage from "../components/LoadingPage";
-import { useAuth } from "../context/auth";
+import useAuth from "../hooks/useAuth";
 import Auth from "../pages/Auth";
 import Home from "../pages/Home";
 
