@@ -12,6 +12,7 @@ export default function Auth() {
 
     const [isLogin, setIsLogin] = useState(true);
 
+    const [name,setName]=useState("")
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -39,7 +40,7 @@ export default function Auth() {
         e.preventDefault();
 
         await handleAuthAction(()=> 
-            isLogin ? login(email, password) : register(email, password)
+            isLogin ? login(email, password) : register(name,email, password)
         )
     }
 
@@ -73,6 +74,14 @@ export default function Auth() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="space-y-5">
+            {!isLogin && (
+                <Input
+                    label="Nome"
+                    placeholder="Seu nome aqui"
+                    value={name}
+                    onChange={(e)=>setName(e.target.value)}
+                />
+            )}
             <Input
                 label="Email"
                 type="email"

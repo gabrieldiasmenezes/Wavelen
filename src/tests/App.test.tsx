@@ -1,7 +1,7 @@
 import { render } from "@testing-library/react";
 import { describe, it, expect, vi } from "vitest";
 import App from "../App";
-import { AuthProvider } from "../context/auth/authProvider";
+import { AuthProvider } from "../context/auth/AuthProvider";
 
 // Mock do Firebase Auth pra não fazer requisição real
 vi.mock("../lib/firebase", () => ({
