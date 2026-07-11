@@ -11,7 +11,7 @@ export default function OnboardingGate() {
     if (loading) return <LoadingPage />;
 
 
-    if (!userData.onboardingCompleted) {
+    if (!userData?.onboardingCompleted) {
         return <Onboarding />;
     }
 
