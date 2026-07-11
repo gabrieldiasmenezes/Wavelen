@@ -1,7 +1,9 @@
 import LoadingPage from "../components/LoadingPage";
 import useAuth from "../hooks/useAuth";
 import Auth from "../pages/Auth";
-import Home from "../pages/Home";
+import OnboardingGate from "./OnboardingGate";
+
+
 
 
 
@@ -14,5 +16,5 @@ export default function AuthGate() {
     return <Auth />;
   }
 
-  return <Home />;
+  return <OnboardingGate />;
 }
