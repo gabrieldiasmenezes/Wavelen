@@ -5,6 +5,7 @@
 /* ================================
    Global Base Reset
    ================================ */
+   
 @theme inline {
   /* Typography */
   --font-heading: var(--font-space-grotesk), var(--font-sans);
