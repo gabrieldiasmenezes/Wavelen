@@ -17,7 +17,6 @@ export function SoundWave() {
     canvas.height = size * dpr
     ctx.scale(dpr, dpr)
 
-    // Barras de onda sonora (equalizador)
     const barCount = 7
     const barWidth = 3.5
     const gap = 4
@@ -27,7 +26,7 @@ export function SoundWave() {
     const maxHeight = 34
     const minHeight = 7
 
-    // Defasagem de cada barra para um movimento orgânico
+    // Offset each bar so they animate independently.
     const phases = Array.from({ length: barCount }, (_, i) => i * 0.7)
 
     let frame = 0
@@ -36,13 +35,12 @@ export function SoundWave() {
     const draw = () => {
       ctx.clearRect(0, 0, size, size)
       frame += 1
-      const t = frame * 0.018 // bem lento
+      const t = frame * 0.018 
 
       ctx.shadowColor = "#38bdf8"
       ctx.shadowBlur = 8
 
       for (let i = 0; i < barCount; i++) {
-        // Combinação de senos para variar a altura suavemente
         const wave = (Math.sin(t * 2 + phases[i]) + Math.sin(t * 1.3 + phases[i] * 1.7)) / 2
         const h = minHeight + ((wave + 1) / 2) * (maxHeight - minHeight)
         const x = startX + i * (barWidth + gap)
@@ -64,7 +62,6 @@ export function SoundWave() {
 
   return (
     <div className="relative flex size-18 items-center justify-center">
-      {/* Painel squircle com pegada tecnológica */}
       <div
         className="absolute inset-0 rounded-2xl border border-primary"
         style={{

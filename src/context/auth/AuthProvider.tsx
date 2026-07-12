@@ -6,51 +6,55 @@ import * as authService from "../../services/authService";
 import * as userService from "../../services/userService";
 import { doc, onSnapshot } from "firebase/firestore";
 
-export function AuthProvider({children,}: { children: ReactNode; }) {
-  const [user, setUser] =useState<User | null>(null);
 
-  const [userData, setUserData] =useState<UserData | null>(null);
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-  const [loading, setLoading] =useState(true);
+export function AuthProvider({children,}: AuthProviderProps) {
+  const [user, setUser] = useState<User | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
 
-        let unsubscribeSnapshot: (() => void) | null = null;
+    let unsubscribeSnapshot: (() => void) | null = null;
 
-        const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
-        try {
-            if (unsubscribeSnapshot) {
-                unsubscribeSnapshot();
-                unsubscribeSnapshot = null;
-            }
-
-            if (!firebaseUser) {
-                setUser(null);
-                setUserData(null);
-                return;
-            }
-
-            await userService.syncUser(firebaseUser);
-            setUser(firebaseUser);
-
-            unsubscribeSnapshot = onSnapshot(
-            doc(db, "users", firebaseUser.uid),
-            (snap) => {
-                if (snap.exists()) {
-                    setUserData(snap.data() as UserData);
-                }
-            }
-            );
-        } finally {
-            setLoading(false);
+    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
+    try {
+        if (unsubscribeSnapshot) {
+            unsubscribeSnapshot();
+            unsubscribeSnapshot = null;
         }
-        });
 
-        return () => {
-            unsubscribeAuth();
-            if (unsubscribeSnapshot) unsubscribeSnapshot();
-        };
-    }, []);
+        if (!firebaseUser) {
+            setUser(null);
+            setUserData(null);
+            return;
+        }
+
+        await userService.syncUser(firebaseUser);
+        setUser(firebaseUser);
+
+        // Keep the user profile synchronized with Firestore in real time.
+        unsubscribeSnapshot = onSnapshot(
+        doc(db, "users", firebaseUser.uid),
+        (snap) => {
+            if (snap.exists()) {
+                setUserData(snap.data() as UserData);
+            }
+        }
+        );
+    } finally {
+        setLoading(false);
+    }
+    });
+
+    return () => {
+        unsubscribeAuth();
+        if (unsubscribeSnapshot) unsubscribeSnapshot();
+    };
+  }, []);
 
   async function login(email: string,password: string) {
     await authService.login(email, password);
