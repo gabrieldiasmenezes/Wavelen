@@ -20,24 +20,27 @@ export function useOnboarding() {
 
   const config = {
     genres: {
-      title: "Descubra seu Caminho Musical",
-      subtitle: "Escolha alguns gêneros musicais para que o Wavelen personalize suas recomendações.",
-      placeholder: "Pesquisar gênero...",
+      title: "What do you love listening to?",
+      subtitle:
+        "Choose a few music genres so Wavelen can personalize your recommendations.",
+      placeholder: "Search genres...",
       search: genreSearch,
       setSearch: setGenreSearch,
       chosen: chosenGenres,
       progress: 50,
-      step: "Passo 1 de 2",
+      step: "Step 1 of 2",
     },
+
     artists: {
-      title: "Seus Artistas Favoritos",
-      subtitle: "Selecione artistas que você curte para afinarmos ainda mais suas recomendações.",
-      placeholder: "Pesquisar artista...",
+      title: "Who are your favorite artists?",
+      subtitle:
+        "Pick a few artists you enjoy to make your recommendations even more personal.",
+      placeholder: "Search artists...",
       search: artistSearch,
       setSearch: setArtistSearch,
       chosen: chosenArtists,
       progress: 100,
-      step: "Passo 2 de 2",
+      step: "Step 2 of 2",
     },
   }
 
@@ -59,9 +62,8 @@ export function useOnboarding() {
     )
   }, [step, genreSearch, artistSearch])
 
-  const toggle = (
-    id: string,
-    chosen: string[],
+  const toggleSelection = (
+    id: string,chosen: string[],
     setChosen: (v: string[]) => void
   ) => {
     setChosen(
@@ -72,8 +74,8 @@ export function useOnboarding() {
   }
 
   const handleCardClick = (id: string) => {
-    if (step === "genres") toggle(id, chosenGenres, setChosenGenres)
-    else toggle(id, chosenArtists, setChosenArtists)
+    if (step === "genres") toggleSelection(id, chosenGenres, setChosenGenres)
+    else toggleSelection(id, chosenArtists, setChosenArtists)
   }
 
   const canContinue = current.chosen.length >= MIN_SELECTION
@@ -86,24 +88,22 @@ export function useOnboarding() {
 
     if (!user) return
     setSaving(true)
+    try{
+      await completeOnboarding(user.uid, {
+        genres: chosenGenres,
+        artists: chosenArtists,
+      })
 
-    await completeOnboarding(user.uid, {
-      genres: chosenGenres,
-      artists: chosenArtists,
-    })
+    } finally{
+      setSaving(false)
+    }
 
-    setSaving(false)
   }
 
   return {
-    step,
-    setStep,
-    current,
-    itemsToShow,
-    canContinue,
-    saving,
-    handleCardClick,
-    handleContinue,
-    MIN_SELECTION,
+    step,setStep,current,
+    itemsToShow,canContinue,
+    saving,handleCardClick,
+    handleContinue,MIN_SELECTION,
   }
 }

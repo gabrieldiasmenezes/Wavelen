@@ -100,10 +100,6 @@ body {
   flex-direction: column;
 }
 
-/* ================================
-   Resets de elementos — DENTRO de @layer base
-   pra Tailwind utilities sempre ganharem
-   ================================ */
 @layer base {
   h1, h2, h3, h4, h5, h6 {
     font-family: var(--font-heading);
@@ -141,7 +137,7 @@ body {
     font: inherit;
     cursor: pointer;
     border: none;
-    background: none; /* agora está em @layer base, Tailwind ganha */
+    background: none; 
   }
 
   input,

@@ -21,7 +21,7 @@ export default function LoadingPage() {
         </h1>
 
         <p className="mt-3 text-sm text-muted-foreground">
-          Preparando sua experiência musical...
+          Personalizing your music experience...
         </p>
       </div>
 

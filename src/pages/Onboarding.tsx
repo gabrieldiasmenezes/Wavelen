@@ -6,25 +6,28 @@ import { useOnboarding } from "../hooks/useOnboarding"
 
 export default function Onboarding() {
   const {
-    step,setStep,
-    current,itemsToShow,
-    canContinue,saving,
-    handleCardClick,handleContinue,
-    MIN_SELECTION,
-    } = useOnboarding()
+    step,setStep,current,
+    itemsToShow,canContinue,
+    saving,handleCardClick,
+    handleContinue,MIN_SELECTION,
+  } = useOnboarding()
 
   return (
     <main className="flex min-h-screen justify-center bg-background px-6 py-10">
       <div className="w-full max-w-6xl">
         <div className="flex flex-col items-center gap-8">
 
-          <Header title={current.title} subtitle={current.subtitle} />
+          <Header
+            title={current.title}
+            subtitle={current.subtitle}
+          />
 
           <div className="w-full max-w-2xl">
             <div className="mb-2 flex justify-between text-sm text-muted-foreground">
               <span>{current.step}</span>
               <span>{current.progress}%</span>
             </div>
+
             <div className="h-2 overflow-hidden rounded-full bg-secondary">
               <div
                 className="h-full rounded-full bg-primary transition-all duration-500"
@@ -41,10 +44,11 @@ export default function Onboarding() {
 
           <div className="flex w-full justify-between text-sm">
             <span className="text-foreground">
-              {current.chosen.length}/{MIN_SELECTION} selecionados
+              {current.chosen.length}/{MIN_SELECTION} selected
             </span>
+
             <span className="text-muted-foreground">
-              Selecione no mínimo {MIN_SELECTION}
+              Select at least {MIN_SELECTION}
             </span>
           </div>
 
@@ -67,7 +71,7 @@ export default function Onboarding() {
                 onClick={() => setStep("genres")}
                 className="text-sm text-muted-foreground transition hover:text-foreground"
               >
-                ← Voltar
+                ← Back
               </button>
             )}
 
@@ -81,11 +85,15 @@ export default function Onboarding() {
               }`}
             >
               {saving ? (
-                "Salvando..."
+                "Saving..."
               ) : step === "genres" ? (
-                <> Continuar <ArrowRight size={18} /> </>
+                <>
+                  Continue <ArrowRight size={18} />
+                </>
               ) : (
-                <> Começar <Check size={18} /> </>
+                <>
+                  Get Started <Check size={18} />
+                </>
               )}
             </button>
           </div>
