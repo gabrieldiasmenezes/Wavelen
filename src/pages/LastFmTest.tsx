@@ -12,8 +12,10 @@ export default function LastFmTest(){
   useEffect(() => {
     if (!artist) return
 
+    const currentArtist = artist
+
     async function load() {
-      const result = await searchTracks(artist)
+      const result = await searchTracks(currentArtist)
 
       setTracks(result)
     }
