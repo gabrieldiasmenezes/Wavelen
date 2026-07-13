@@ -6,23 +6,21 @@ import useAuth from "../hooks/useAuth"
 export default function LastFmTest(){
   const {userData} = useAuth()
   const [tracks,setTracks] = useState<LastFmTrack[]>([])
-  console.log('musica 1:',userData?.musicProfile?.artists[0])
   const artist = userData?.musicProfile?.artists[0]
 
 
-  useEffect(()=>{
+  useEffect(() => {
+    if (!artist) return
 
-    async function load(){
-
+    async function load() {
       const result = await searchTracks(artist)
 
       setTracks(result)
-
     }
 
     load()
 
-  },[])
+  }, [artist])
 
 
   return (

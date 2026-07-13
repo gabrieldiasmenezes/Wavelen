@@ -1,7 +1,7 @@
 import useAuth from "../hooks/useAuth";
 
 import LoadingPage from "../components/LoadingPage";
-import Home from "../pages/Home";
+
 import Onboarding from "../pages/Onboarding";
 import LastFmTest from "../pages/LastFmTest";
 
