@@ -12,13 +12,15 @@ interface UserData {
   musicProfile: MusicProfile;
 }
 
-interface LastFmTrack {
+interface MusicTrack {
+  id: number | string
   name: string
   artist: string
   album: string
   cover: string
-  url: string
-  tags: string[]
+  previewUrl: string | null
+  url?: string
+  tags?: string[]
 }
 
 interface CardItem {

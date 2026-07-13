@@ -3,7 +3,8 @@ import useAuth from "../hooks/useAuth";
 import LoadingPage from "../components/LoadingPage";
 
 import Onboarding from "../pages/Onboarding";
-import LastFmTest from "../pages/LastFmTest";
+import MusicTest from "../pages/MusicTest";
+
 
 export default function OnboardingGate() {
     const { userData,loading } = useAuth();
@@ -16,5 +17,5 @@ export default function OnboardingGate() {
         return <Onboarding />;
     }
 
-    return <LastFmTest />;
+    return <MusicTest/>;
 }
