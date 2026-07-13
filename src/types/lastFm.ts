@@ -1,3 +1,12 @@
+export type LastFmTrack = {
+  name: string
+  artist: string
+  album: string
+  cover: string | null
+  url: string
+  tags: string[]
+}
+
 export type LastFmImage = {
   "#text": string
   size: string
@@ -21,8 +30,9 @@ export type LastFmTrackRaw = {
   album?: LastFmAlbum
   image?: LastFmImage[]
   url?: string
+
   toptags?: {
-    tag: LastFmTag[]
+    tag?: LastFmTag[]
   }
 }
 

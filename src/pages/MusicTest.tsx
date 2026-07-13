@@ -1,42 +1,50 @@
 import { useEffect, useState } from "react"
-import { searchTracks } from "../services/lastFm"
 import useAuth from "../hooks/useAuth"
+import { searchMusic } from "../services/music"
 
 
-export default function LastFmTest(){
-  const {userData} = useAuth()
-  const [tracks,setTracks] = useState<LastFmTrack[]>([])
+export default function MusicTest(){
+
+  const { userData } = useAuth()
+
+  const [tracks,setTracks] = useState<MusicTrack[]>([])
+
   const artist = userData?.musicProfile?.artists[0]
 
 
   useEffect(() => {
-    if (!artist) return
 
-    const currentArtist = artist
+    if(!artist) return
 
-    async function load() {
-      const result = await searchTracks(currentArtist)
+
+    async function load(){
+
+      const result = await searchMusic('Bell Marques')
+      console.log(result[0])
 
       setTracks(result)
+
     }
+
 
     load()
 
-  }, [artist])
+  },[artist])
 
 
   return (
     <main className="p-10">
 
       <h1 className="text-3xl font-bold mb-5">
-        Last.fm Test
+        Deezer Test
       </h1>
 
 
       <div className="grid gap-5">
 
-        {tracks.map(track=>(
-          <div key={track.url}>
+        {tracks.map(track => (
+
+          <div key={track.id}>
 
             {track.cover && (
               <img
@@ -49,7 +57,20 @@ export default function LastFmTest(){
             <p>{track.artist}</p>
             <p>{track.album}</p>
 
+
+            {track.previewUrl ? (
+              <audio
+                controls
+                src={track.previewUrl}
+              />
+            ) : (
+              <p>
+                Preview unavailable
+              </p>
+            )}
+
           </div>
+
         ))}
 
       </div>
