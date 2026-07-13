@@ -17,7 +17,7 @@ interface MusicTrack {
   name: string
   artist: string
   album: string
-  cover: string
+  cover: string | null
   previewUrl: string | null
   url?: string
   tags?: string[]
