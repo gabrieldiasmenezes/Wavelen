@@ -1,7 +1,7 @@
 import useOnboarding from "../../hooks/useOnboarding"
 import Card from "./Card"
 
-const DEFAULT_IMAGE = "/default.jpg"
+
 
 export default function SelectionGrid(){
     const {
@@ -39,7 +39,7 @@ export default function SelectionGrid(){
                     key={item.id}
                     id={item.id}
                     name={item.name}
-                    photo={item.photo ?? DEFAULT_IMAGE}
+                    photo={item.photo}
                     selected={current.chosen.includes(item.id)}
                     onClick={() => handleCardClick(item.id)}
                 />
