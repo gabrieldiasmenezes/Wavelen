@@ -1,7 +1,7 @@
 import type { VercelRequest, VercelResponse } from "@vercel/node"
 
 export default async function handler(req: VercelRequest,res: VercelResponse) {
-  
+    
   const query = req.query.q
   const limit = req.query.limit
 
@@ -12,12 +12,12 @@ export default async function handler(req: VercelRequest,res: VercelResponse) {
   }
 
   try {
-    const url = new URL("https://api.deezer.com/search")
+    const url = new URL("https://api.deezer.com/search/artist")
 
     url.searchParams.set("q", query)
     url.searchParams.set(
       "limit",
-      typeof limit === "string" ? limit : "10"
+      typeof limit === "string" ? limit : "9"
     )
 
     const response = await fetch(url)

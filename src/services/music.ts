@@ -1,20 +1,56 @@
-import {searchLastFmTracks} from "./apis/lastFm"
+import { searchLastFmTracks } from "./apis/lastFm"
+import { searchDeezerArtists, searchDeezerTracks } from "./apis/deezer"
 
-import {searchDeezerTracks} from "./apis/deezer"
 
-export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[]> {
+const POPULAR_ARTISTS = [
+  "Taylor Swift",
+  "The Weeknd",
+  "Billie Eilish",
+  "Drake",
+  "Ariana Grande",
+  "Ed Sheeran",
+  "Beyoncé",
+  "Bruno Mars",
+  "Coldplay",
+]
 
-  const [deezerTracks,lastFmTracks] = await Promise.all([
-    searchDeezerTracks(query,limit),
-    searchLastFmTracks(query,limit)
+
+function mapArtistToCard(artist: {
+  id: number
+  name: string
+  picture_xl: string | null
+}): CardItem {
+
+  return {
+    id: String(artist.id),
+    name: artist.name,
+    photo: artist.picture_xl,
+  }
+}
+
+
+// Search tracks combining Deezer preview + Last.fm metadata
+export async function searchMusic(
+  query: string,
+  limit = 10
+): Promise<MusicTrack[]> {
+
+  const [
+    deezerTracks,
+    lastFmTracks,
+  ] = await Promise.all([
+    searchDeezerTracks(query, limit),
+    searchLastFmTracks(query, limit),
   ])
 
 
-  return deezerTracks.map(track => {
+  return deezerTracks.map((track) => {
+
     const metadata =
-      lastFmTracks.find(last =>
-          last.name.toLowerCase().includes(
-              track.name.toLowerCase())
+      lastFmTracks.find((last) =>
+        last.name
+          .toLowerCase()
+          .includes(track.name.toLowerCase())
       )
 
 
@@ -25,9 +61,39 @@ export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[
       album: track.album,
       cover: track.cover,
       previewUrl: track.previewUrl,
-      tags:metadata?.tags ?? []
+      tags: metadata?.tags ?? [],
     }
 
   })
+}
 
+
+// Search artists from Deezer
+export async function searchArtists(
+  query: string,
+  limit = 9
+): Promise<CardItem[]> {
+
+  const artists =
+    await searchDeezerArtists(query, limit)
+
+
+  return artists.map(mapArtistToCard)
+}
+
+
+// Initial onboarding artists
+export async function getPopularArtists(): Promise<CardItem[]> {
+
+  const results =
+    await Promise.all(
+      POPULAR_ARTISTS.map((artist) =>
+        searchDeezerArtists(artist, 1)
+      )
+    )
+
+
+  return results
+    .flat()
+    .map(mapArtistToCard)
 }

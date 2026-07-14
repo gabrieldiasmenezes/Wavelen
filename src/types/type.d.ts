@@ -26,5 +26,7 @@ interface MusicTrack {
 interface CardItem {
   id: string;
   name: string;
-  photo: string;
+  photo: string | null;
 }
+
+type DeezerEndpoint = "search" | "artist"

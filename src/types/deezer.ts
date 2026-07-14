@@ -7,8 +7,10 @@ export interface DeezerTrack {
   previewUrl: string | null
 }
 
-export interface DeezerArtist {
+export type DeezerArtist = {
+  id: number
   name: string
+  picture_xl?: string | null
 }
 
 export interface DeezerAlbum {
@@ -27,4 +29,14 @@ export interface DeezerTrackRaw {
 export interface DeezerSearchResponse {
   data?: DeezerTrackRaw[]
   total?: number
+}
+
+export type DeezerArtistRaw = {
+  id: number
+  name: string
+  picture_xl?: string | null
+}
+
+export type DeezerArtistSearchResponse = {
+  data?: DeezerArtistRaw[]
 }

@@ -43,27 +43,3 @@ export type LastFmTrackSearchResponse = {
     }
   }
 }
-
-export type LastFmTopTracksResponse = {
-  toptracks?: {
-    track?: LastFmTrackRaw[]
-  }
-}
-
-export type LastFmSimilarArtistsResponse = {
-  similarartists?: {
-    artist?: {
-      name: string
-    }[]
-  }
-}
-
-export type LastFmArtistTagsResponse = {
-  toptags?: {
-    tag?: LastFmTag[]
-  }
-}
-
-export type LastFmTrackInfoResponse = {
-  track?: LastFmTrackRaw
-}
