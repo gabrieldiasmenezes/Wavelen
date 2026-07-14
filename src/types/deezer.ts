@@ -10,7 +10,7 @@ export interface DeezerTrack {
 export type DeezerArtist = {
   id: number
   name: string
-  picture_xl?: string | null
+  picture_xl: string | null
 }
 
 export interface DeezerAlbum {
@@ -21,7 +21,7 @@ export interface DeezerAlbum {
 export interface DeezerTrackRaw {
   id: number
   title: string
-  preview?: string | null
+  preview: string | null
   artist?: DeezerArtist
   album?: DeezerAlbum
 }
@@ -34,7 +34,7 @@ export interface DeezerSearchResponse {
 export type DeezerArtistRaw = {
   id: number
   name: string
-  picture_xl?: string | null
+  picture_xl: string | null
 }
 
 export type DeezerArtistSearchResponse = {

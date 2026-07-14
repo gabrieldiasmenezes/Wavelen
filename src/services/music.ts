@@ -1,5 +1,6 @@
 import { searchLastFmTracks } from "./apis/lastFm"
 import { searchDeezerArtists, searchDeezerTracks } from "./apis/deezer"
+import type { DeezerArtist } from "../types/deezer"
 
 
 const POPULAR_ARTISTS = [
@@ -15,11 +16,7 @@ const POPULAR_ARTISTS = [
 ]
 
 
-function mapArtistToCard(artist: {
-  id: number
-  name: string
-  picture_xl: string | null
-}): CardItem {
+function mapArtistToCard(artist : DeezerArtist): CardItem {
 
   return {
     id: String(artist.id),
@@ -30,10 +27,7 @@ function mapArtistToCard(artist: {
 
 
 // Search tracks combining Deezer preview + Last.fm metadata
-export async function searchMusic(
-  query: string,
-  limit = 10
-): Promise<MusicTrack[]> {
+export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[]> {
 
   const [
     deezerTracks,
@@ -69,11 +63,7 @@ export async function searchMusic(
 
 
 // Search artists from Deezer
-export async function searchArtists(
-  query: string,
-  limit = 9
-): Promise<CardItem[]> {
-
+export async function searchArtists(query: string,limit = 9): Promise<CardItem[]> {
   const artists =
     await searchDeezerArtists(query, limit)
 

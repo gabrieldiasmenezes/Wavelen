@@ -19,7 +19,7 @@ function normalizeDeezerTrack(raw: DeezerTrackRaw): DeezerTrack {
 }
 
 // Check Deezer placeholder image
-function isDeezerPlaceholder(url: string | null): boolean {
+function isDeezerPlaceholder(url: string | null | undefined): boolean {
   if (!url) return true
 
   return url.includes(
