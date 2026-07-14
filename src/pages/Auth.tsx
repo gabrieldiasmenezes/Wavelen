@@ -19,8 +19,8 @@ export default function Auth() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  const isLoginMessage = isLogin ? "Create Account" : "Sign In";
-
+  const isLoginMessage = isLogin ? "Sign In" : "Create Account";
+  const footerMessage = isLogin ? "Create Account" : "Sign In";
   if (loading) return <LoadingPage />;
 
   async function handleAuthAction(action: () => Promise<void>) {
@@ -154,7 +154,7 @@ export default function Auth() {
             }}
             className="font-semibold text-primary transition hover:opacity-80"
           >
-            {isLoginMessage}
+            {footerMessage}
           </button>
         </div>
       </div>

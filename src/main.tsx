@@ -4,11 +4,16 @@ import './style/global.css';
 import "./style/theme.css";
 import App from './App.tsx';
 import { AuthProvider } from './context/auth/AuthProvider.tsx';
+import { OnboardingProvider } from './context/onboarding/OnboardingProvider.tsx';
+
+
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <App/>
-    </AuthProvider>
+      <OnboardingProvider>
+          <App/>
+      </OnboardingProvider>
+      </AuthProvider>
   </StrictMode>,
 );

@@ -3,6 +3,8 @@ interface CardProps extends CardItem {
   onClick: () => void;
 }
 
+const DEFAULT_IMAGE = "/default.jpg"
+
 export default function Card({name,photo,selected,onClick,}: CardProps) {
     const selectedStyle =
       selected
@@ -20,7 +22,7 @@ export default function Card({name,photo,selected,onClick,}: CardProps) {
           `}
         >
           <img
-            src={photo}
+            src={photo ?? DEFAULT_IMAGE}
             alt={name}
             className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
           />

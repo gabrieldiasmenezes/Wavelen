@@ -1,16 +1,13 @@
-import { ArrowRight, Check } from "lucide-react"
 import Header from "../components/Onboarding/Header"
 import SearchInput from "../components/Onboarding/SearchInput"
-import Card from "../components/Onboarding/Card"
-import { useOnboarding } from "../hooks/useOnboarding"
+
+import SelectionGrid from "../components/Onboarding/SelectionGrid"
+import NavigationControls from "../components/Onboarding/NavigationControls"
+import useOnboarding from "../hooks/useOnboarding"
+
 
 export default function Onboarding() {
-  const {
-    step,setStep,current,
-    itemsToShow,canContinue,
-    saving,handleCardClick,
-    handleContinue,MIN_SELECTION,
-  } = useOnboarding()
+  const {current,MIN_SELECTION,} = useOnboarding()
 
   return (
     <main className="flex min-h-screen justify-center bg-background px-6 py-10">
@@ -24,10 +21,11 @@ export default function Onboarding() {
 
           <div className="w-full max-w-2xl">
             <div className="mb-2 flex justify-between text-sm text-muted-foreground">
-              <span>{current.step}</span>
-              <span>{current.progress}%</span>
-            </div>
 
+              <span> {current.step} </span>
+              <span> {current.progress}% </span>
+
+            </div>
             <div className="h-2 overflow-hidden rounded-full bg-secondary">
               <div
                 className="h-full rounded-full bg-primary transition-all duration-500"
@@ -43,6 +41,7 @@ export default function Onboarding() {
           />
 
           <div className="flex w-full justify-between text-sm">
+
             <span className="text-foreground">
               {current.chosen.length}/{MIN_SELECTION} selected
             </span>
@@ -50,54 +49,10 @@ export default function Onboarding() {
             <span className="text-muted-foreground">
               Select at least {MIN_SELECTION}
             </span>
+
           </div>
-
-          <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {itemsToShow.map((item) => (
-              <Card
-                key={item.id}
-                id={item.id}
-                name={item.name}
-                photo={item.photo}
-                selected={current.chosen.includes(item.id)}
-                onClick={() => handleCardClick(item.id)}
-              />
-            ))}
-          </div>
-
-          <div className="flex w-full items-center justify-between">
-            {step === "artists" && (
-              <button
-                onClick={() => setStep("genres")}
-                className="text-sm text-muted-foreground transition hover:text-foreground"
-              >
-                ← Back
-              </button>
-            )}
-
-            <button
-              disabled={!canContinue || saving}
-              onClick={handleContinue}
-              className={`ml-auto flex items-center gap-2 rounded-xl px-8 py-3 font-semibold transition-all ${
-                canContinue && !saving
-                  ? "bg-primary text-primary-foreground hover:scale-105"
-                  : "cursor-not-allowed bg-secondary text-muted-foreground"
-              }`}
-            >
-              {saving ? (
-                "Saving..."
-              ) : step === "genres" ? (
-                <>
-                  Continue <ArrowRight size={18} />
-                </>
-              ) : (
-                <>
-                  Get Started <Check size={18} />
-                </>
-              )}
-            </button>
-          </div>
-
+          <SelectionGrid/>
+          <NavigationControls/>
         </div>
       </div>
     </main>

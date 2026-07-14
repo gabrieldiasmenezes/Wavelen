@@ -1,8 +1,6 @@
 import buildLastFMUrl from "../../lib/lastFm"
 import type {
-  LastFmArtistTagsResponse,LastFmImage,
-  LastFmSimilarArtistsResponse,LastFmTopTracksResponse,
-  LastFmTrack,LastFmTrackInfoResponse,
+  LastFmImage,LastFmTrack,
   LastFmTrackRaw,LastFmTrackSearchResponse,
 } from "../../types/lastFm"
 
@@ -56,8 +54,6 @@ async function fetchLastFm<T>(params: Record<string,string>): Promise<T> {
   return response.json() as Promise<T>
 }
 
-
-
 // Search tracks
 export async function searchLastFmTracks(query:string,limit = 10): Promise<LastFmTrack[]> {
 
@@ -72,62 +68,4 @@ export async function searchLastFmTracks(query:string,limit = 10): Promise<LastF
   return tracks.map(normalizeLastFmTrack)
 }
 
-// Top artist tracks
-export async function getTopTracksByArtist(artist:string,limit = 5): Promise<LastFmTrack[]> {
 
-  const data = await fetchLastFm<LastFmTopTracksResponse>({
-    method:"artist.gettoptracks",
-    artist,
-    limit:String(limit),
-  })
-
-  const tracks = data.toptracks?.track ?? []
-
-  return tracks.map(normalizeLastFmTrack)
-}
-
-// Similar artists tracks
-export async function getSimilarTracksByArtist(artist:string,limit= 10): Promise<LastFmTrack[]> {
-
-  const data = await fetchLastFm<LastFmSimilarArtistsResponse>({
-    method:"artist.getsimilar",
-    artist,
-    limit:String(limit),
-  })
-
-  const similar = data.similarartists?.artist ?? []
-
-  const tracks = await Promise.all(
-    similar.slice(0,3).map((artist) =>
-      getTopTracksByArtist(artist.name,3)
-    )
-  )
-
-  return tracks.flat().slice(0,limit)
-}
-
-// Artist genres/tags
-export async function getArtistTags(artist:string): Promise<string[]> {
-
-  const data =await fetchLastFm<LastFmArtistTagsResponse>({
-    method:"artist.gettoptags",
-    artist,
-  })
-
-
-  return (data.toptags?.tag ?.slice(0,5).map(tag => tag.name) ?? [])
-}
-
-// Full track information
-export async function getTrackInfo(track:string,artist:string): Promise<LastFmTrack | null> {
-
-  const data =await fetchLastFm<LastFmTrackInfoResponse>({
-    method:"track.getInfo",
-    track,
-    artist,
-  })
-
-  if (!data.track) return null
-  
-  return normalizeLastFmTrack(data.track)
-}
