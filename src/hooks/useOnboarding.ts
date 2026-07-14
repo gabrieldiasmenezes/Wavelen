@@ -1,5 +1,7 @@
 import { useContext } from "react"
-import { OnboardingContext } from "../context/onboarding/onboardingContext"
+import { OnboardingContext } from "../context/onboarding/OnboardingContext"
+
+
 
 
 export default function useOnboarding() {

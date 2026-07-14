@@ -3,7 +3,7 @@ import { musicGenres } from "../../data/musicGender"
 import { completeOnboarding } from "../../services/userService"
 import { getPopularArtists, searchArtists } from "../../services/music"
 import useAuth from "../../hooks/useAuth"
-import { OnboardingContext } from "./onboardingContext"
+import { OnboardingContext } from "./OnboardingContext"
 
 type Step = "genres" | "artists"
 
@@ -45,12 +45,6 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
       setLoadingArtists(false)
     }
   }, [])
-
-  // Loads popular artists when entering the artist step
-  useEffect(() => {
-    if (step !== "artists") return
-    if (artistResults.length === 0) fetchArtists()
-  }, [step, artistResults.length, fetchArtists])
 
   // Searches artists with debounce
   useEffect(() => {
@@ -127,6 +121,11 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
   const handleContinue = async () => {
     if (step === "genres") {
       setStep("artists")
+
+      if (artistResults.length === 0) {
+        fetchArtists()
+      }
+
       return
     }
 
