@@ -1,4 +1,4 @@
-import { SoundWave } from "../components/SoundWave";
+import { SoundWave } from "./SoundWave";
 
 export default function LoadingPage() {
   return (

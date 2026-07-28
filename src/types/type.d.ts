@@ -30,3 +30,8 @@ interface CardItem {
 }
 
 type DeezerEndpoint = "search" | "artist"
+
+
+type ToggleButtonProps = {
+  active:boolean
+}

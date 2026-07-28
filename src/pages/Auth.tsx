@@ -1,9 +1,9 @@
 import { useState } from "react";
 import type { AuthError } from "firebase/auth";
-import { SoundWave } from "../components/SoundWave";
+import { SoundWave } from "../components/ui/SoundWave";
 import Input from "../components/Input";
 import { FcGoogle } from "react-icons/fc";
-import LoadingPage from "../components/LoadingPage";
+import LoadingPage from "../components/ui/LoadingPage";
 import getAuthErrorMessage from "../utils/authErrors";
 import useAuth from "../hooks/useAuth";
 

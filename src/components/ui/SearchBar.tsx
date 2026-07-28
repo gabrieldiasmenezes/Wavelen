@@ -6,7 +6,7 @@ interface SearchInputProps {
     placeholder:string
 }
 
-export default function SearchInput({value,onChange,placeholder}:SearchInputProps){
+export default function SearchBar({value,onChange,placeholder}:SearchInputProps){
     return(
         <>
             <div className="relative w-full">
