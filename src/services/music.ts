@@ -16,8 +16,7 @@ const POPULAR_ARTISTS = [
 ]
 
 
-function mapArtistToCard(artist : DeezerArtist): CardItem {
-
+function mapArtist(artist : DeezerArtist): CardItem {
   return {
     id: String(artist.id),
     name: artist.name,
@@ -29,10 +28,7 @@ function mapArtistToCard(artist : DeezerArtist): CardItem {
 // Search tracks combining Deezer preview + Last.fm metadata
 export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[]> {
 
-  const [
-    deezerTracks,
-    lastFmTracks,
-  ] = await Promise.all([
+  const [deezerTracks,lastFmTracks,] = await Promise.all([
     searchDeezerTracks(query, limit),
     searchLastFmTracks(query, limit),
   ])
@@ -40,13 +36,11 @@ export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[
 
   return deezerTracks.map((track) => {
 
-    const metadata =
-      lastFmTracks.find((last) =>
+    const metadata =lastFmTracks.find((last) =>
         last.name
           .toLowerCase()
           .includes(track.name.toLowerCase())
       )
-
 
     return {
       id: String(track.id),
@@ -61,29 +55,22 @@ export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[
   })
 }
 
-
 // Search artists from Deezer
-export async function searchArtists(query: string,limit = 9): Promise<CardItem[]> {
-  const artists =
-    await searchDeezerArtists(query, limit)
-
-
-  return artists.map(mapArtistToCard)
+export async function searchArtists(query: string,limit = 1): Promise<CardItem[]> {
+  const artists = await searchDeezerArtists(query, limit)
+  return artists.map(mapArtist)
 }
 
 
 // Initial onboarding artists
 export async function getPopularArtists(): Promise<CardItem[]> {
 
-  const results =
-    await Promise.all(
+  const results = await Promise.all(
       POPULAR_ARTISTS.map((artist) =>
         searchDeezerArtists(artist, 1)
       )
     )
 
 
-  return results
-    .flat()
-    .map(mapArtistToCard)
+  return results.flat().map(mapArtist)
 }

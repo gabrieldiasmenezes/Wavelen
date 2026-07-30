@@ -1,9 +1,8 @@
 import Header from "../components/Onboarding/Header"
-import SearchInput from "../components/Onboarding/SearchInput"
-
 import SelectionGrid from "../components/Onboarding/SelectionGrid"
 import NavigationControls from "../components/Onboarding/NavigationControls"
 import useOnboarding from "../hooks/useOnboarding"
+import SearchBar from "../components/ui/SearchBar"
 
 
 export default function Onboarding() {
@@ -34,7 +33,7 @@ export default function Onboarding() {
             </div>
           </div>
 
-          <SearchInput
+          <SearchBar
             value={current.search}
             onChange={current.setSearch}
             placeholder={current.placeholder}

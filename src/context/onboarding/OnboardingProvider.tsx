@@ -46,7 +46,7 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
     }
   }, [])
 
-  // Searches artists with debounce
+
   useEffect(() => {
     if (step !== "artists") return
 

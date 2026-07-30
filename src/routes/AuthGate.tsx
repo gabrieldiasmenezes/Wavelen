@@ -1,4 +1,4 @@
-import LoadingPage from "../components/LoadingPage";
+import LoadingPage from "../components/ui/LoadingPage";
 import useAuth from "../hooks/useAuth";
 import Auth from "../pages/Auth";
 import OnboardingGate from "./OnboardingGate";

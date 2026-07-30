@@ -1,9 +1,9 @@
 import useAuth from "../hooks/useAuth";
 
-import LoadingPage from "../components/LoadingPage";
+import LoadingPage from "../components/ui/LoadingPage";
 
 import Onboarding from "../pages/Onboarding";
-import MusicTest from "../pages/MusicTest";
+import Home from "../pages/Home";
 
 
 export default function OnboardingGate() {
@@ -17,5 +17,5 @@ export default function OnboardingGate() {
         return <Onboarding />;
     }
 
-    return <MusicTest/>;
+    return <Home/>;
 }
