@@ -8,7 +8,6 @@ import DropDown from "./DropDown";
 
 export default function Header() {
     const {user} = useAuth()
-    console.log(user.email)
     const [dropdown,setDropdown]=useState(false)
 
     return (

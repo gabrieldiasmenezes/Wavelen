@@ -14,7 +14,7 @@ export default function MusicCard({track}:MusicCardProps){
         <a href="https://open.spotify.com/search/lady%20gaga" className="flex group justify-between gap-3 px-5 py-2 rounded-sm hover:bg-secondary transition-all">
             <div className="relative">
                 <img
-                    src={track.cover}
+                    src={track.cover ?? "default.jpg"}
                     alt={track.name}
                     className="w-20 rounded-sm"
                 />

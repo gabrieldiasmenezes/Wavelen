@@ -12,7 +12,7 @@ export default function ArtistCard({artist}:ArtistCardProps){
         <button className="flex group justify-between gap-3 px-5 py-2 rounded-sm hover:bg-secondary transition-all">
             <div className="relative">
                 <img
-                    src={artist.photo}
+                    src={artist.photo ?? "default.jpg"}
                     alt={artist.name}
                     className="w-20 rounded-sm"
                 />
