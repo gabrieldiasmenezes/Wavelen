@@ -1,8 +1,15 @@
+import { useState } from "react";
+import useAuth from "../../../hooks/useAuth";
 import { AudioSpectrum } from "../../ui/AudioSpectrum";
 import AssistantButton from "./AssistantButton";
 import Search from "./Search";
+import DropDown from "./DropDown";
+
 
 export default function Header() {
+    const {user} = useAuth()
+    console.log(user.email)
+    const [dropdown,setDropdown]=useState(false)
 
     return (
         <header className="flex items-center gap-10 px-4 py-4 md:px-6">
@@ -28,13 +35,15 @@ export default function Header() {
             <AssistantButton />
 
             {/* Profile */}
-            <button className="h-10 w-10 shrink-0 overflow-hidden rounded-full transition hover:scale-105">
+            <button onClick={()=> setDropdown(!dropdown)} className="h-10 w-10 shrink-0 overflow-hidden rounded-full transition hover:scale-105">
                 <img
-                    src="/default.jpg"
+                    src={user?.photoURL ?? "default.jpg"}
                     alt="Account"
                     className="h-full w-full object-cover"
                 />
             </button>
+            {dropdown && <DropDown/>}
+
 
         </header>
     );
