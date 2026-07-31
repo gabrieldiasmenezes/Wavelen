@@ -23,7 +23,7 @@ interface MusicTrack {
   tags?: string[]
 }
 
-interface CardItem {
+interface TrackItem {
   id: string;
   name: string;
   photo: string | null;

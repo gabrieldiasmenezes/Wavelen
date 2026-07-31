@@ -17,7 +17,7 @@ interface OnboardingContextType {
   step: Step
   setStep: (step: Step) => void
   current: OnboardingConfig
-  itemsToShow: CardItem[]
+  itemsToShow: TrackItem[]
   canContinue: boolean
   saving: boolean
   loadingArtists: boolean

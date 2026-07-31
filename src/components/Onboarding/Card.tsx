@@ -1,4 +1,4 @@
-interface CardProps extends CardItem {
+interface CardProps extends TrackItem {
   selected: boolean;
   onClick: () => void;
 }

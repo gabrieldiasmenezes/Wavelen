@@ -16,7 +16,7 @@ const POPULAR_ARTISTS = [
 ]
 
 
-function mapArtist(artist : DeezerArtist): CardItem {
+function mapArtist(artist : DeezerArtist): TrackItem {
   return {
     id: String(artist.id),
     name: artist.name,
@@ -56,14 +56,14 @@ export async function searchMusic(query: string,limit = 10): Promise<MusicTrack[
 }
 
 // Search artists from Deezer
-export async function searchArtists(query: string,limit = 1): Promise<CardItem[]> {
+export async function searchArtists(query: string,limit = 1): Promise<TrackItem[]> {
   const artists = await searchDeezerArtists(query, limit)
   return artists.map(mapArtist)
 }
 
 
 // Initial onboarding artists
-export async function getPopularArtists(): Promise<CardItem[]> {
+export async function getPopularArtists(): Promise<TrackItem[]> {
 
   const results = await Promise.all(
       POPULAR_ARTISTS.map((artist) =>

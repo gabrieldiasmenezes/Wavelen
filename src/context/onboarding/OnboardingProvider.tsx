@@ -22,7 +22,7 @@ export function OnboardingProvider({ children }: OnboardingProviderProps) {
   const [artistSearch, setArtistSearch] = useState("")
   const [chosenGenres, setChosenGenres] = useState<string[]>([])
   const [chosenArtists, setChosenArtists] = useState<string[]>([])
-  const [artistResults, setArtistResults] = useState<CardItem[]>([])
+  const [artistResults, setArtistResults] = useState<TrackItem[]>([])
   const [saving, setSaving] = useState(false)
   const [loadingArtists, setLoadingArtists] = useState(false)
   const [error, setError] = useState<string | null>(null)
