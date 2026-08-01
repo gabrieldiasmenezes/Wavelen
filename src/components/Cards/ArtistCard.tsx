@@ -4,7 +4,7 @@ import { SavedButton } from "./SavedButton";
 import { Play } from "lucide-react";
 
 type ArtistCardProps={
-    artist:CardItem
+    artist:TrackItem
 }
 export default function ArtistCard({artist}:ArtistCardProps){
     const [saved,setSaved]=useState(false)

@@ -1,4 +1,4 @@
-export const musicGenres: CardItem[] = [
+export const musicGenres: TrackItem[] = [
   {
     id: "pop",
     name: "Pop",

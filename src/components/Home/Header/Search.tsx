@@ -12,7 +12,7 @@ type SearchResult =
     }
     | {
         type:"artist",
-        data:CardItem
+        data:TrackItem
     }
 
 
@@ -77,7 +77,7 @@ export default function Search() {
         (loading || searchResult.length > 0);
 
     return (
-        <div className="relative mx-2 flex-1">
+        <div className="relative mx-2 flex-1 w-full">
             <SearchBar
                 value={search}
                 onChange={onChangeSearch}
@@ -85,7 +85,7 @@ export default function Search() {
             />
 
             {showResults && (
-                <div className="absolute left-0 top-full z-50 mt-2 max-h-125 w-full overflow-y-auto rounded-2xl border bg-card shadow-xl scrollbar-hide">
+                <div className="absolute left-0 top-full z-50 mt-2 max-h-125 w-full overflow-y-auto rounded-2xl bg-card shadow-xl scrollbar-hide">
 
                     {loading ? (
                         <div className="p-6 text-center text-sm text-muted-foreground">
@@ -104,6 +104,7 @@ export default function Search() {
                                 }
                                 return (
                                     <ArtistCard
+                                        key={result.data.id}
                                         artist={result.data}
                                     />
                                 )

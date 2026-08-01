@@ -18,7 +18,7 @@ export default function DropDown() {
     const {logout} = useAuth()
 
     return (
-        <div className="absolute right-0 top-12 z-50 w-72 rounded-2xl border bg-card shadow-xl">
+        <div className="absolute right-0 top-12 z-50 w-72 rounded-2xl bg-card shadow-xl">
 
             {/* Options */}
             <div className="flex flex-col p-2">

@@ -11,7 +11,7 @@ export default function Header() {
     const [dropdown,setDropdown]=useState(false)
 
     return (
-        <header className="flex items-center gap-10 px-4 py-4 md:px-6">
+        <header className="flex items-center justify-between gap-10 px-4 py-4 md:px-6">
 
             {/* Logo */}
             <div className="flex shrink-0 items-center gap-2">
@@ -22,13 +22,15 @@ export default function Header() {
                     />
                 </div>
 
-                <h1 className="font-heading text-lg font-bold tracking-tight">
+                <h1 className="hidden md:block font-heading text-lg font-bold tracking-tight">
                     Wave<span className="text-primary">len</span>
                 </h1>
             </div>
 
             {/* Search */}
-            <Search/>
+            <div className="hidden w-full md:block">
+                <Search/>
+            </div>
 
             {/* Assistant */}
             <AssistantButton />
