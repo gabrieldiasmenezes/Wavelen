@@ -2,7 +2,7 @@ import { Dot } from "lucide-react"
 
 type LibraryCardProps={
   name:string,
-  photo?:string,
+  photo?:string | undefined,
   isPlaylist?:boolean
 
 

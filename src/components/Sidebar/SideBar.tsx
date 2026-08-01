@@ -56,7 +56,7 @@ export default function SideBar(){
             <LibraryCard
               key={card.name}
               name={card.name}
-              photo={card.photo}
+              photo={card.photo ?? "default.jpg"}
             />
           ))}
 
@@ -64,7 +64,7 @@ export default function SideBar(){
             <LibraryCard
               key={artist.name}
               name={artist.name}
-              photo={artist.photo}
+              photo={artist.photo ?? "default.jpg"}
             />
           ))}
         </div>
