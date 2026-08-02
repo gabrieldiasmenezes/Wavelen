@@ -1,101 +1,99 @@
-import {onAuthStateChanged,type User,} from "firebase/auth";
-import {useEffect,useState,type ReactNode,} from "react";
-import { auth, db } from "../../lib/firebase";
-import { AuthContext } from "./AuthContext";
-import * as authService from "../../services/authService";
-import * as userService from "../../services/userService";
-import { doc, onSnapshot } from "firebase/firestore";
+import { useEffect, useState, type ReactNode } from "react";
+import { AuthContext } from "./authContext";
+import AuthError from "../../utils/authError";
+import * as authService from "../../service/authService";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../lib/firebase";
 
-
-interface AuthProviderProps {
-  children: ReactNode;
+type AuthProviderProps={
+    children:ReactNode
 }
+export default function AuthProvider({children}:AuthProviderProps){
+    const [user,setUser]=useState<User | null>(null)
+    const [loading,setLoading]= useState(true)
+    const [error,setError] =useState("")
 
-export function AuthProvider({children,}: AuthProviderProps) {
-  const [user, setUser] = useState<User | null>(null);
-  const [userData, setUserData] = useState<UserData | null>(null);
-  const [loading, setLoading] = useState(true);
+    useEffect(() => {
+        setLoading(true);
+        const unsubscribe=onAuthStateChanged(auth, async (currentUser)=>{
+            try{
+                if(!currentUser) {
+                    setUser(null);
+                    setLoading(false);
+                    setError("")
+                    return 
+                }
 
-  useEffect(() => {
+                const docSnap = await authService.getUser(currentUser.uid);
+    
+                setUser({uid:currentUser.uid,...docSnap.data()});
 
-    let unsubscribeSnapshot: (() => void) | null = null;
-
-    const unsubscribeAuth = onAuthStateChanged(auth, async (firebaseUser) => {
-    try {
-        if (unsubscribeSnapshot) {
-            unsubscribeSnapshot();
-            unsubscribeSnapshot = null;
-        }
-
-        if (!firebaseUser) {
-            setUser(null);
-            setUserData(null);
-            return;
-        }
-
-        await userService.syncUser(firebaseUser);
-        setUser(firebaseUser);
-
-        // Keep the user profile synchronized with Firestore in real time.
-        unsubscribeSnapshot = onSnapshot(
-        doc(db, "users", firebaseUser.uid),
-        (snap) => {
-            if (snap.exists()) {
-                setUserData(snap.data() as UserData);
+            }catch(e){
+                setError(AuthError(e));
+                console.log(e);
+            }finally{
+                setLoading(false)
             }
+        })
+
+
+        return()=>unsubscribe();
+    },[]);
+    
+    const loginWithEmailPassword= async (email:string,password:string)=>{
+        try{
+            setLoading(true)
+            setError("")
+            const userData = await authService.loginWithEmailPassword(email,password)
+            setUser(userData);
+        }catch(e){
+            setError(AuthError(e))
+            console.log(e)
+        }finally{
+            setLoading(false)
         }
-        );
-    } finally {
-        setLoading(false);
+
     }
-    });
 
-    return () => {
-        unsubscribeAuth();
-        if (unsubscribeSnapshot) unsubscribeSnapshot();
-    };
-  }, []);
+    const authWithGoogle= async ()=>{
+        try{
+            setLoading(true)
+            setError("")
+            const userData=await authService.authWithGoogle();
+            setUser(userData);
 
-  async function login(email: string,password: string) {
-    await authService.login(email, password);
-  }
+        }catch(e){
+            setError(AuthError(e))
+            console.log(e)
+        }finally{
+            setLoading(false)
+        }
+    }
 
-  async function register(name: string,email: string,password: string) {
-    const firebaseUser = await authService.register(name,email,password);
+    const register= async (name:string,email:string,password:string) => {
+        try{
+            setError("");
+            setLoading(true);
 
-    const data = await userService.syncUser(firebaseUser);
+            const userData = await authService.register(name,email,password);
+            setUser(userData);
 
-    setUser(firebaseUser);
-    setUserData(data);
-  }
+        }catch(e){
+            setError(AuthError(e))
+            console.log(e)
+        }finally{
+            setLoading(false)
+        }
+    }
 
-  async function loginWithGoogle() {
-    const firebaseUser = await authService.loginWithGoogle();
+    const logout=()=>{
+        setUser(null)
+    }
 
-    const data = await userService.syncUser(firebaseUser);
 
-    setUser(firebaseUser);
-    setUserData(data);
-  }
-
-  async function logout() {
-    await authService.logout();
-
-    setUser(null);
-    setUserData(null);
-  }
-
-  return (
-    <AuthContext.Provider
-      value={{
-        user,userData,
-        loading,login,
-        register,loginWithGoogle,
-        logout,
-      }}>
-
-      {!loading && children}
-      
-    </AuthContext.Provider>
-  );
+    return(
+        <AuthContext.Provider value={{user,loading,error,loginWithEmailPassword,authWithGoogle,register,logout}}>
+            {children}
+        </AuthContext.Provider>
+    )
 }

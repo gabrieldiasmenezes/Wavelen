@@ -1,163 +1,132 @@
-import { useState } from "react";
-import type { AuthError } from "firebase/auth";
-import { SoundWave } from "../components/ui/SoundWave";
-import Input from "../components/Input";
+import {useState,} from "react";
 import { FcGoogle } from "react-icons/fc";
-import LoadingPage from "../components/ui/LoadingPage";
-import getAuthErrorMessage from "../utils/authErrors";
-import useAuth from "../hooks/useAuth";
+import Separator from "../components/auth/Separator";
+import AuthInput from "../components/auth/AuthInput";
+import SoundWave from "../components/ui/SoundWave";
+import useAuth from "../hook/useAuth";
+
 
 export default function Auth() {
-  const { login, register, loginWithGoogle } = useAuth();
+  const {loginWithEmailPassword,authWithGoogle,register,loading,error} = useAuth()
 
-  const [isLogin, setIsLogin] = useState(true);
+  const [email,setEmail] = useState("")
+  const [password,setPassword] = useState("")
+  const [name,setName] = useState("")
+  const [isLogin,setIsLogin]=useState(true)
+  const [authAction,setAuthAction]=useState< AuthActionProps | null>(null)
 
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const authTitle= isLogin ? "Login" : "Create Account"
+  const authToggleLabel = isLogin ? "Create Account" : "Sign In";
 
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  const isLoginMessage = isLogin ? "Sign In" : "Create Account";
-  const footerMessage = isLogin ? "Create Account" : "Sign In";
-  if (loading) return <LoadingPage />;
-
-  async function handleAuthAction(action: () => Promise<void>) {
-    setError("");
-    setLoading(true);
-
-    try {
-      await action();
-    } catch (err) {
-      setError(getAuthErrorMessage(err as AuthError));
-    } finally {
-      setLoading(false);
-    }
+  const handleSubmit = (e: React.FormEvent) => {
+      e.preventDefault()
+      if (isLogin) {
+          setAuthAction("login")
+          loginWithEmailPassword(email,password);
+      } else {
+          setAuthAction("register")
+          register(name,email,password);
+      }
   }
 
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-
-    await handleAuthAction(() =>
-      isLogin
-        ? login(email, password)
-        : register(name, email, password)
-    );
+  const handleGoogle=()=>{
+    setAuthAction("google")
+    authWithGoogle()
   }
 
-  async function handleGoogleLogin() {
-    await handleAuthAction(() => loginWithGoogle());
+  const resetInputValues=()=>{
+    setIsLogin(!isLogin)
+    setName("")
+    setEmail("")
+    setPassword("")
   }
 
-  return (
-    <main className="flex min-h-screen items-center justify-center bg-background px-6">
-      <div className="w-full max-w-md rounded-lg border border-border bg-card p-8 shadow-2xl backdrop-blur-xl">
-
-        <div className="relative mb-10 flex flex-col items-center">
-          <div className="absolute h-32 w-32 rounded-full blur-3xl" />
-
-          <div className="relative">
-            <SoundWave />
+  return(
+    <main className="flex min-h-screen items-center p-4 justify-center">
+      <div className="flex flex-col w-full max-w-md items-center justify-center p-10 bg-card rounded-lg gap-3 border border-border">
+        <div className="flex rounded-3xl ">
+          <div className="flex items-center justify-center p-4 rounded-full shadow-inner border border-primary">
+              <SoundWave barStyle="bg-primary"/>
           </div>
-
-          <h1 className="mt-6 text-5xl font-bold tracking-tight">
-            Wave<span className="text-primary">len</span>
-          </h1>
-
-          <p className="mt-3 max-w-xs text-center text-sm text-muted-foreground">
-            Discover the perfect soundtrack for every moment.
-          </p>
         </div>
+        <div className="flex flex-col text-center gap-3 py-5">
+          <h1 className="text-5xl font-bold tracking-tight">Wave<span className="text-primary">len</span></h1>
+          <p className="text-base font-light">Discover the perfect soundtrack for every moment.</p>
+        </div>
+        <Separator label={authTitle}/>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-5">
-          {!isLogin && (
-            <Input
-              label="Full Name"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+        <form onSubmit={handleSubmit} className="flex flex-col gap-3 w-full ">
+
+            {!isLogin && (
+                <AuthInput
+                    label="Name"
+                    value={name}
+                    onChange={(e)=> setName(e.target.value)}
+                    placeholder="Enter your name"
+                />
+            )}
+
+            <AuthInput
+                label="Email"
+                value={email}
+                onChange={(e)=> setEmail(e.target.value)}
+                type="email"
+                placeholder="you@gmail.com"
+                required
             />
-          )}
 
-          <Input
-            label="Email"
-            type="email"
-            placeholder="you@example.com"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
+            <AuthInput
+                label="Password"
+                value={password}
+                onChange={(e)=> setPassword(e.target.value)}
+                type="password"
+                placeholder="******"
+                required
+            />
 
-          <Input
-            label="Password"
-            type="password"
-            placeholder="••••••••"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-
-          {error && (
-            <div
-              className="rounded-lg border p-3 text-sm text-destructive"
-              style={{
-                borderColor: "rgba(239,68,68,.2)",
-                background: "rgba(239,68,68,.08)",
-              }}
-            >
-              {error}
+            <div className="flex py-5">
+                <button 
+                type="submit"
+                disabled={loading}
+                className="flex justify-center w-full p-3 font-bold text-xl tracking-tight text-foreground bg-primary rounded-lg hover:bg-primary/70 transition-colors">
+                {
+                  loading && (authAction == "login" || authAction == "register") 
+                  ? <SoundWave barStyle="bg-foreground"/> :authTitle
+                }
+                </button>
             </div>
-          )}
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 font-semibold transition-all hover:brightness-110 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
-            style={{
-              background: "var(--primary)",
-              color: "var(--primary-foreground)",
-              borderRadius: "var(--radius)",
-            }}
-          >
-            {isLoginMessage}
-          </button>
+            {error && (
+              <div className="flex justify-center">
+                <p className="text-destructive tracking-tight">{error}</p>
+              </div>
+            )}
         </form>
+        <Separator label="OR"/>
 
-        {/* Divider */}
-        <div className="my-8 flex items-center gap-4">
-          <div className="h-px flex-1 bg-border" />
-          <span className="text-sm text-muted-foreground">or</span>
-          <div className="h-px flex-1 bg-border" />
+        <div className="flex w-full py-5">
+          <button
+            onClick={handleGoogle}
+            disabled={loading}
+            className="flex items-center justify-center w-full p-3 gap-3 font-bold text-xl tracking-tight text-primary-foreground bg-white rounded-lg hover:bg-white/70 transition-colors  "
+          >
+            <FcGoogle/>
+            {loading && authAction == "google" ? <SoundWave barStyle="bg-card"/> : "Continue with Google"}
+          </button>
         </div>
 
-        {/* Google */}
-        <button
-          onClick={handleGoogleLogin}
-          disabled={loading}
-          className="flex w-full items-center justify-center gap-3 rounded-lg bg-primary py-3 transition hover:brightness-110 disabled:opacity-60"
-        >
-          <FcGoogle size={24} />
-
-          <span className="font-medium text-foreground">
-            Continue with Google
-          </span>
-        </button>
-
-        {/* Footer */}
-        <div className="mt-8 text-center text-sm text-muted-foreground">
+        <div className="flex w-full items-center justify-center font-light text-subtitle-foreground ">
           {isLogin ? "Don't have an account?" : "Already have an account?"}{" "}
           <button
-            type="button"
-            onClick={() => {
-              setIsLogin(!isLogin);
-              setError("");
-            }}
-            className="font-semibold text-primary transition hover:opacity-80"
-          >
-            {footerMessage}
+            onClick={resetInputValues}
+            disabled={loading}
+            className="text-primary hover:text-primary/70 transition-colors"
+           >
+            {authToggleLabel}
           </button>
         </div>
       </div>
     </main>
-  );
+  )
 }
+
+

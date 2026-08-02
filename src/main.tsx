@@ -3,17 +3,14 @@ import { createRoot } from 'react-dom/client';
 import './style/global.css';
 import "./style/theme.css";
 import App from './App.tsx';
-import { AuthProvider } from './context/auth/AuthProvider.tsx';
-import { OnboardingProvider } from './context/onboarding/OnboardingProvider.tsx';
+import AuthProvider from './context/auth/AuthProvider.tsx';
 
 
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <OnboardingProvider>
-          <App/>
-      </OnboardingProvider>
-      </AuthProvider>
+      <App/>
+    </AuthProvider>
   </StrictMode>,
 );

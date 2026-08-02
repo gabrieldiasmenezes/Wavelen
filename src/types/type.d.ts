@@ -1,37 +1,23 @@
-interface MusicProfile {
-    genres: string[];
-    artists: string[];
+type AuthActionProps= "login" | "google" | "register" | null
+
+type LabelProps={
+    label:string
 }
 
-interface UserData {
-  uid: string;
-  displayName: string | null;
-  email: string | null;
-  photoURL: string | null;
-  onboardingCompleted: boolean;
-  musicProfile: MusicProfile;
+type MediaItem ={
+    name?:string,
+    photo?:string,
+    url?:string
 }
-
-interface MusicTrack {
-  id: number | string
-  name: string
-  artist: string
-  album: string
-  cover: string | null
-  previewUrl: string | null
-  url?: string
-  tags?: string[]
+type MusicalProfile ={
+    artists?:MediaItem[],
+    genres?:string[],
 }
-
-interface TrackItem {
-  id: string;
-  name: string;
-  photo: string | null;
-}
-
-type DeezerEndpoint = "search" | "artist"
-
-
-type ToggleButtonProps = {
-  active:boolean
+interface User{
+    uid?:string,
+    name?:string,
+    email?:string,
+    photo?:string,
+    onboardingCompleted?:boolean,
+    musicProfile?:MusicalProfile
 }

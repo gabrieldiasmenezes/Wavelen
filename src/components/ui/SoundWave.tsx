@@ -1,79 +1,37 @@
-import { useEffect, useRef } from "react"
+import { motion } from "framer-motion";
 
-export function SoundWave() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
+type SoundWaveProps={
+  barStyle:string,
+}
+export default function SoundWave({barStyle}:SoundWaveProps) {
 
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    const dpr = window.devicePixelRatio || 1
-    const size = 72
-    canvas.width = size * dpr
-    canvas.height = size * dpr
-    ctx.scale(dpr, dpr)
-
-    const barCount = 7
-    const barWidth = 3.5
-    const gap = 4
-    const totalWidth = barCount * barWidth + (barCount - 1) * gap
-    const startX = (size - totalWidth) / 2
-    const centerY = size / 2
-    const maxHeight = 34
-    const minHeight = 7
-
-    // Offset each bar so they animate independently.
-    const phases = Array.from({ length: barCount }, (_, i) => i * 0.7)
-
-    let frame = 0
-    let raf = 0
-
-    const draw = () => {
-      ctx.clearRect(0, 0, size, size)
-      frame += 1
-      const t = frame * 0.018 
-
-      ctx.shadowColor = "#38bdf8"
-      ctx.shadowBlur = 8
-
-      for (let i = 0; i < barCount; i++) {
-        const wave = (Math.sin(t * 2 + phases[i]) + Math.sin(t * 1.3 + phases[i] * 1.7)) / 2
-        const h = minHeight + ((wave + 1) / 2) * (maxHeight - minHeight)
-        const x = startX + i * (barWidth + gap)
-        const y = centerY - h / 2
-
-        ctx.fillStyle = "#38bdf8"
-        const r = barWidth / 2
-        ctx.beginPath()
-        ctx.roundRect(x, y, barWidth, h, r)
-        ctx.fill()
-      }
-
-      raf = requestAnimationFrame(draw)
-    }
-
-    draw()
-    return () => cancelAnimationFrame(raf)
-  }, [])
+  const bars = [
+    { min: 0.2, max: 0.5 },
+    { min: 0.3, max: 0.8 },
+    { min: 0.2, max: 1.0 }, 
+    { min: 0.3, max: 0.7 },
+    { min: 0.2, max: 0.4 },
+    { min: 0.3, max: 0.6 },
+    { min: 0.2, max: 0.9 },
+  ];
 
   return (
-    <div className="relative flex size-18 items-center justify-center">
-      <div
-        className="absolute inset-0 rounded-2xl border border-primary"
-        style={{
-          background: "linear-gradient(150deg, var(--secondary), var(--background))",
-        }}
-        aria-hidden="true"
-      />
-      <canvas
-        ref={canvasRef}
-        className="relative"
-        style={{ width: 72, height: 72 }}
-        role="img"
-        aria-label="Onda sonora animada do wavelen"
-      />
+    <div className="flex gap-1.5 items-center justify-center h-8 w-30">
+      {bars.map((config, i) => (
+          <motion.div
+            key={i}
+            initial={{ scaleY: config.min }}
+            animate={{ scaleY: [config.min, config.max, config.min] }}
+            transition={{
+              repeat: Infinity,
+              repeatType: "mirror",
+              duration: 0.6 + i * 0.15, 
+              ease: "easeInOut",
+              delay: i * 0.1, 
+            }}
+            className={`w-1 h-full rounded-full origin-center ${barStyle}`}
+          />
+      ))}
     </div>
-  )
+  );
 }
