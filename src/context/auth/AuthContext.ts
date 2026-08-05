@@ -4,6 +4,7 @@ type AuthContextType={
     user:User | null,
     loading:boolean,
     error:string,
+    loadUser:(uid:string)=>void,
     loginWithEmailPassword:(email:string,password:string) => void,
     authWithGoogle:() => void,
     logout:()=>void,

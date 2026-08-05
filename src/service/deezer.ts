@@ -1,49 +1,63 @@
+import buildDeezerUrl from "../lib/deezer"
+import { dedupeByName, mapMediaItem, normalize } from "../utils/artistsUtils"
 
-const BASE_URL="/api/deezer"
 
-type DeezerEndpoint = "search" | "artist"
+async function fetchArtists(name: string): Promise<MediaItem[]> {
+    const artistUrl = buildDeezerUrl({ q: name }, 'artist')
+    const response = await fetch(artistUrl)
 
-export default function buildDeezerUrl(params: Record<string,string>,endpoint:DeezerEndpoint): string {
+    if (!response.ok) return []
 
-  const query = new URLSearchParams(params)
+    const data: DeezerResponse = await response.json()
+    if (!data.data || data.data.length == 0) return []
 
-  return `${BASE_URL}/${endpoint}?${query}`
-
+    return data.data.map(mapMediaItem)
 }
 
-export async function getArtists(name:string){
-    try{
-        const artistUrl = buildDeezerUrl({ q: name }, 'artist')
-        const response= await fetch(artistUrl)
+export async function getArtists(name: string) {
+    try {
+        const results = await fetchArtists(name)
+        const query = normalize(name)
 
-        if (!response.ok) return 
+        const exactMatches = results.filter(
+            (artist) => normalize(artist.name) === query
+        )
 
-        const data= await response.json()
-        if (!data.data || data.data.lenght == 0) return
+        if (exactMatches.length > 0) {
+            return dedupeByName(exactMatches)
+        }
 
-        const artists = data.data.map((item: any) => ({
-            name: item.name,
-            photo: item.picture_xl,
-            url: item.link
-        }))
-        return artists
-        
-    }catch(e){
-        throw new Error("Erro:",e)
+        const partialMatches = results.filter((artist) =>
+            normalize(artist.name).includes(query)
+        )
+
+        return dedupeByName(partialMatches)
+    } catch (e) {
+        throw new Error("Failed to fetch artists.")
     }
 }
 
-export async function getPopularArtists(){
-    try{
-        const popularArtists = ["The Weeknd","Billie Eilish","Ariana Grande","Lady Gaga","Beyoncé","Bruno Mars",]
-        const artists=popularArtists.map(async(name)=>{
-            const result= await getArtists(name)
-            return result[0] || null
-        })
-        const result= await Promise.all(artists)
-        return result.filter(Boolean)
-    }catch(e){
-        throw new Error("Erro:",e)
+async function getExactArtist(name: string): Promise<MediaItem | null> {
+    try {
+        const results = await fetchArtists(name)
+        const exact = results.filter(
+            (artist) => normalize(artist.name) == normalize(name)
+        )
+        return dedupeByName(exact)[0] || null
+    } catch (e) {
+        throw new Error("Failed to fetch artists.")
     }
-
 }
+
+const POPULARARTISTS = ["The Weeknd", "Billie Eilish", "Ariana Grande", "Lady Gaga", "Beyoncé", "Bruno Mars"]
+export async function getPopularArtists() {
+    try {
+        const artists = POPULARARTISTS.map(getExactArtist)
+        const result = await Promise.all(artists)
+        return result.filter(Boolean) as MediaItem[]
+    } catch (e) {
+        throw new Error("Failed to fetch popular artists.")
+    }
+}
+
+

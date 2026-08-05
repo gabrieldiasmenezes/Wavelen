@@ -13,6 +13,20 @@ export default function AuthProvider({children}:AuthProviderProps){
     const [loading,setLoading]= useState(true)
     const [error,setError] =useState("")
 
+    const loadUser= async (uid:string)=>{
+        try{
+            setLoading(true)
+            const docSnap = await authService.getUser(uid);
+            setUser({
+                uid:uid,
+                ...docSnap.data()
+            });
+        }catch(e){
+            throw e
+        }finally{
+            setLoading(false)
+        }
+    }
     useEffect(() => {
         setLoading(true);
         const unsubscribe=onAuthStateChanged(auth, async (currentUser)=>{
@@ -24,9 +38,7 @@ export default function AuthProvider({children}:AuthProviderProps){
                     return 
                 }
 
-                const docSnap = await authService.getUser(currentUser.uid);
-    
-                setUser({uid:currentUser.uid,...docSnap.data()});
+                await loadUser(currentUser.uid)
 
             }catch(e){
                 setError(AuthError(e));
@@ -92,7 +104,7 @@ export default function AuthProvider({children}:AuthProviderProps){
 
 
     return(
-        <AuthContext.Provider value={{user,loading,error,loginWithEmailPassword,authWithGoogle,register,logout}}>
+        <AuthContext.Provider value={{user,loading,error,loadUser,loginWithEmailPassword,authWithGoogle,register,logout}}>
             {children}
         </AuthContext.Provider>
     )

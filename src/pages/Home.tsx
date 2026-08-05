@@ -6,7 +6,7 @@ export default function Home(){
     console.log(message)
     return(
         <h1>
-            {user == null ? "veio nulo pai" : "nao veio nulo irmão"}
+            deu certo
         </h1>
     )
 }

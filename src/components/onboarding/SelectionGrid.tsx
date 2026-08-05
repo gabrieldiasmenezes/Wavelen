@@ -1,0 +1,45 @@
+import useOnboarding from "../../hook/useOnboarding"
+import SoundWave from "../ui/SoundWave"
+import MediaCard from "./MediaCard"
+
+export default function SelectionGrid(){
+    const {
+        itemsToShow,isLoading,
+        isItemSelect,handleSelect,
+    } = useOnboarding()
+
+    if (isLoading){
+        return (
+            <div className="flex w-full items-center justify-center py-20">
+                <div className="flex p-2 items-center justify-center border border-card rounded-2xl bg-primary">
+                    <SoundWave barStyle="bg-background text-lg" />
+                </div>
+            </div>
+        )
+    }
+
+    if(itemsToShow.length === 0){
+        return(
+            <div className="flex w-full items-center justify-center py-20">
+                <div className="flex p-2 items-center justify-center border border-card rounded-2xl bg-primary">
+                    <h1>No results for your search</h1>
+                </div>
+            </div>
+        )
+    }
+
+    return(
+        <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-50">
+            {itemsToShow.map((item)=>
+                <MediaCard
+                    key={item.name}
+                    name={item.name}
+                    photo={item.photo}
+                    isSelected={isItemSelect(item.name)}
+                    onSelect={()=>handleSelect(item)}
+                />
+            )}
+        </div>
+    )
+
+}
