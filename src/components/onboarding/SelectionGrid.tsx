@@ -1,6 +1,6 @@
 import useOnboarding from "../../hook/useOnboarding"
 import SoundWave from "../ui/SoundWave"
-import MediaCard from "./MediaCard"
+import Card from "./Card"
 
 export default function SelectionGrid(){
     const {
@@ -31,7 +31,7 @@ export default function SelectionGrid(){
     return(
         <div className="grid w-full grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 auto-rows-50">
             {itemsToShow.map((item)=>
-                <MediaCard
+                <Card
                     key={item.name}
                     name={item.name}
                     photo={item.photo}

@@ -20,11 +20,12 @@ type DeezerMediaType = 'artist' | 'album' | 'track' | 'playlist'
 //Components
 
 type MediaItem ={
-    id?:string
     name?:string,
     photo?:string,
+    artist?:string,
     url?:string
 }
+
 type MusicalProfile ={
     artists?:MediaItem[],
     genres?:string[],
@@ -39,3 +40,8 @@ interface User{
 }
 
 type Step="genre" | "artist"
+
+type ActiveButtonProps={
+    isActive:boolean,
+    onClick:(e: React.MouseEvent<HTMLButtonElement>)=>void
+}

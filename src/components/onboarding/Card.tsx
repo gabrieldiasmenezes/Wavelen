@@ -6,7 +6,7 @@ type MediaCardProps={
     isSelected:boolean,
     onSelect:()=>void,
 }
-function MediaCard({name,photo,isSelected,onSelect}:MediaCardProps){
+function Card({name,photo,isSelected,onSelect}:MediaCardProps){
     const[isLoaded,setisLoaded]=useState(false)
     return(
         <button 
@@ -35,4 +35,4 @@ function MediaCard({name,photo,isSelected,onSelect}:MediaCardProps){
     )
 }
 
-export default React.memo(MediaCard)
+export default React.memo(Card)

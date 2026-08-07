@@ -1,12 +1,11 @@
-import useAuth from "../hook/useAuth"
+import Header from "../components/Home/Header";
+import MobileBar from "../components/Home/MobileBar";
 
 export default function Home(){
-    const {user}=useAuth()
-    const message= user == null ? "veio nulo pai" : user
-    console.log(message)
     return(
-        <h1>
-            deu certo
-        </h1>
+        <main className="flex w-full border">
+            <Header/>
+            <MobileBar/>
+        </main>
     )
 }
