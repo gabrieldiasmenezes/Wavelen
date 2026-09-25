@@ -6,11 +6,11 @@ type AuthContextType={
     user:User | null,
     loading:boolean,
     error:string,
-    loadUser:(uid:string)=>void,
-    loginWithEmailPassword:(email:string,password:string) => void,
-    authWithGoogle:() => void,
-    logout:()=>void,
-    register:(name:string,email:string,password:string) => void
+    loadUser:(uid:string)=>Promise<void>,
+    loginWithEmailPassword:(email:string,password:string) => Promise<void>,
+    authWithGoogle:() => Promise<void>,
+    logout:()=>Promise<void>,
+    register:(name:string,email:string,password:string) => Promise<void>
 }
 
 export const AuthContext=createContext<AuthContextType | null>(null)
