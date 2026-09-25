@@ -18,4 +18,4 @@ type OnboardingContext={
     handleBack:()=> void
 }
 
-export const OnboardingContext=createContext<OnboardingContext | undefined>(undefined)
+export const OnboardingContext=createContext<OnboardingContext | null>(null)

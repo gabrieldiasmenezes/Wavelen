@@ -13,4 +13,4 @@ type AuthContextType={
     register:(name:string,email:string,password:string) => void
 }
 
-export const AuthContext=createContext<AuthContextType | undefined>(undefined)
+export const AuthContext=createContext<AuthContextType | null>(null)
