@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { AuthContext } from "./authContext";
 import authError from "../../utils/authError";
 import * as authService from "../../service/authService";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, type AuthError } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import type { User } from "../../types/user";
 
@@ -42,7 +42,7 @@ export default function AuthProvider({children}:AuthProviderProps){
                 await loadUser(currentUser.uid)
 
             }catch(e){
-                setError(authError(e));
+                setError(authError(e as AuthError));
                 console.log(e);
                 setLoading(false)
             }
@@ -59,8 +59,7 @@ export default function AuthProvider({children}:AuthProviderProps){
             const userData = await authService.loginWithEmailPassword(email,password)
             setUser(userData);
         }catch(e){
-            setError(authError(e))
-            console.log(e)
+            setError(authError(e as AuthError))
         }finally{
             setLoading(false)
         }
@@ -75,8 +74,7 @@ export default function AuthProvider({children}:AuthProviderProps){
             setUser(userData);
 
         }catch(e){
-            setError(authError(e))
-            console.log(e)
+            setError(authError(e as AuthError))
         }finally{
             setLoading(false)
         }
@@ -91,8 +89,7 @@ export default function AuthProvider({children}:AuthProviderProps){
             setUser(userData);
 
         }catch(e){
-            setError(authError(e))
-            console.log(e)
+            setError(authError(e as AuthError))
         }finally{
             setLoading(false)
         }
@@ -103,7 +100,7 @@ export default function AuthProvider({children}:AuthProviderProps){
             setError("")
             await authService.logout()
         }catch(e){
-            setError(authError(e))
+            setError(authError(e as AuthError))
         }
     }
 

@@ -3,17 +3,17 @@ import type { DeezerArtist, DeezerTrack } from "../types/deezer"
 export function mapArtistItem(media:DeezerArtist) : MediaItem{
     
     return{
-        name: media.name,
-        photo: media.picture_xl,
-        url: media.link
+        name: media.name ?? "",
+        photo: media.picture_xl ?? "",
+        url: media.link ?? ""
     }
 }
 
 export function mapTrackItem(media:DeezerTrack) : MediaItem{
     return{
-        name: media.title,
-        artist:media.artist.name ?? "",
-        photo: media.album.cover_xl ?? "",
+        name: media.title ?? "",
+        artist:media.artist?.name ?? "",
+        photo: media.album?.cover_xl ?? "",
         url: media.link
     }
 }

@@ -1,21 +1,27 @@
-import { createContext } from "react"
+import { createContext, type Dispatch, type SetStateAction } from "react"
 
 
-type OnboardingContext={
-    search:string,
-    setSearch:(s:string)=> Promise<void>,
-    step:Step,
-    MINSELECTED:number,
-    error:string,
-    itemsToShow:MediaItem[],
-    selectedLength:number,
-    canContinue:boolean,
-    isLoading:boolean,
-    isSaving:boolean,
-    isItemSelect:(item:string)=>boolean,
-    handleSelect:(item:MediaItem)=> Promise<void>,
-    handleContinue:()=> Promise<void>,
-    handleBack:()=> Promise<void>,
+type OnboardingContext = {
+    search: string
+    setSearch: Dispatch<SetStateAction<string>>
+
+    step: Step
+    MINSELECTED: number
+
+    error: string | null
+
+    itemsToShow: MediaItem[]
+    selectedLength: number
+    canContinue: boolean
+
+    isLoading: boolean
+    isSaving: boolean
+
+    isItemSelect: (item: string) => boolean
+    handleSelect: (item: MediaItem) => void
+    handleContinue: () => Promise<void>
+    handleBack: () => void
 }
 
-export const OnboardingContext=createContext<OnboardingContext | null>(null)
+export const OnboardingContext =
+    createContext<OnboardingContext | null>(null)

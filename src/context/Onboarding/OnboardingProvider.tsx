@@ -82,9 +82,10 @@ export default function OnboardingProvider({children}:OnboardingProviderProps){
             return
         }
 
+        if(!user?.uid) return
         setIsSaving(true)
         await completeOnboarding({uid:user.uid,genres:selectedGenres,artists:selectedArtists})
-        if(user?.uid) await loadUser(user.uid)
+        await loadUser(user.uid)
         setIsSaving(false)
 
     }

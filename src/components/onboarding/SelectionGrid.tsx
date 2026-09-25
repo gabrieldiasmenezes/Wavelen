@@ -37,7 +37,7 @@ export default function SelectionGrid(){
                 <Card
                     key={item.name}
                     name={item.name}
-                    photo={item.photo}
+                    photo={item.photo ?? ""}
                     isSelected={isItemSelect(item.name)}
                     onSelect={()=>handleSelect(item)}
                 />

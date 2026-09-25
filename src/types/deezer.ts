@@ -13,7 +13,7 @@ export interface DeezerTrack{
     name?:string
   }
   album?:{
-    cover_xl:string
+    cover_xl?:string
   }
   link?:string,
 }
