@@ -5,9 +5,12 @@ import Card from "./Card"
 export default function SelectionGrid(){
     const {
         itemsToShow,isLoading,
-        isItemSelect,handleSelect,
+        isItemSelect,handleSelect,error
     } = useOnboarding()
 
+    if (error){
+        
+    }
     if (isLoading){
         return (
             <div className="flex w-full items-center justify-center py-20">

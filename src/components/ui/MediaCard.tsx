@@ -5,10 +5,11 @@ import HeartButton from "./HeartButton"
 
 type MediaCardProps={
     item:MediaItem
+    isSearch?:boolean
 
 }
 
-export default function MediaCard({item}:MediaCardProps){
+export default function MediaCard({item,isSearch=true}:MediaCardProps){
     const [imageIsLoading,setImageIsLoading]=useState(false)
     const [isActive,setIsActive]=useState(false)
     const loadImageStyle=imageIsLoading ? "opacity-100 scale-100" : "opacity-0 scale-95"
@@ -43,7 +44,7 @@ export default function MediaCard({item}:MediaCardProps){
                 <h2 className="text-xl">{item.name}</h2>
                 <p className="text-sm">{item.artist ? item.artist : "Artist"}</p>
             </div>
-            {item.artist ?(
+            {isSearch && (item.artist ?(
                 <HeartButton
                     isActive={isActive}
                     onClick={handleClick}
@@ -53,8 +54,7 @@ export default function MediaCard({item}:MediaCardProps){
                     isActive={isActive}
                     onClick={handleClick}
                 />                
-            )
-            }
+            ))}
 
         </a>
     )

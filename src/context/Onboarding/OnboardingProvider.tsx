@@ -3,7 +3,7 @@ import { musicGenres } from "../../data/musicGenre";
 import { OnboardingContext } from "./onboardingContext";
 import useArtists from "../../hook/useArtist";
 import useAuth from "../../hook/useAuth";
-import CompleteOnboarding from "../../service/onboardingService";
+import completeOnboarding from "../../service/onboardingService";
 
 type OnboardingProviderProps={
     children:ReactNode
@@ -20,7 +20,7 @@ export default function OnboardingProvider({children}:OnboardingProviderProps){
     const [isSaving,setIsSaving]=useState(false)
 
     //Hooks
-    const {artists,isLoading}=useArtists(step,search)
+    const {artists,isLoading,error}=useArtists(step,search)
     const {user,loadUser}=useAuth()
 
     const selectedLength= step == "genre" ? selectedGenres.length : selectedArtists.length 
@@ -83,7 +83,7 @@ export default function OnboardingProvider({children}:OnboardingProviderProps){
         }
 
         setIsSaving(true)
-        await CompleteOnboarding({uid:user?.uid,genres:selectedGenres,artists:selectedArtists})
+        await completeOnboarding({uid:user?.uid,genres:selectedGenres,artists:selectedArtists})
         if(user?.uid) await loadUser(user.uid)
         setIsSaving(false)
 
@@ -95,8 +95,8 @@ export default function OnboardingProvider({children}:OnboardingProviderProps){
     }
 
     const contextValue= useMemo(()=>({
-        search,setSearch,step,MINSELECTED,itemsToShow,selectedLength,canContinue,isLoading,isSaving,isItemSelect,handleSelect,handleContinue,handleBack
-    }),[search,setSearch,step,MINSELECTED,itemsToShow,selectedLength,canContinue,isLoading,isSaving,isItemSelect,handleSelect,handleContinue,handleBack])
+        search,setSearch,step,MINSELECTED,error,itemsToShow,selectedLength,canContinue,isLoading,isSaving,isItemSelect,handleSelect,handleContinue,handleBack
+    }),[search,setSearch,step,MINSELECTED,error,itemsToShow,selectedLength,canContinue,isLoading,isSaving,isItemSelect,handleSelect,handleContinue,handleBack])
 
     return(
         <OnboardingContext.Provider value={contextValue}>

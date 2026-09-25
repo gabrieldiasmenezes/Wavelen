@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "../lib/firebase";
-import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import { createUserWithEmailAndPassword, GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup, signOut } from "firebase/auth";
+import type { User } from "../types/user";
 
 
 const docRef=(uid:string)=> doc(db,"users",uid);
@@ -24,8 +25,6 @@ async function registerUser(uid:string,name:string,email:string,photo:string){
 
     return userData;
 }
-
-
 
 export async function loginWithEmailPassword (email:string,password:string){
 
@@ -57,5 +56,9 @@ export async function register (name:string,email:string,password:string){
 
     return {uid:userAuth.user.uid,...userData} as User;
 
+}
+
+export async function logout(){
+    await signOut(auth)
 }
 

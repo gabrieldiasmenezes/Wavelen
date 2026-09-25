@@ -1,7 +1,7 @@
 import type { AuthError } from "firebase/auth"
 
 
-export default function AuthError(error:AuthError){
+export default function authError(error:AuthError){
     switch(error.code){
         case "auth/user-not-found":
         case "auth/wrong-password":

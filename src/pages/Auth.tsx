@@ -4,6 +4,7 @@ import Separator from "../components/auth/Separator";
 import AuthInput from "../components/auth/AuthInput";
 import SoundWave from "../components/ui/SoundWave";
 import useAuth from "../hook/useAuth";
+import type { AuthActionProps } from "../types/user";
 
 
 export default function Auth() {

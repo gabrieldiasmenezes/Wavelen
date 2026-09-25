@@ -6,7 +6,7 @@ type CompleteOnboardingProps={
     genres:string[],
     artists:MediaItem[]
 }
-export default async function CompleteOnboarding({uid,genres,artists}:CompleteOnboardingProps){
+export default async function completeOnboarding({uid,genres,artists}:CompleteOnboardingProps){
     const docRef=doc(db,"users",uid)
     await updateDoc(docRef,{
         onboardingCompleted:true,

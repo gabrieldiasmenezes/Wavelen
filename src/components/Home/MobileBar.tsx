@@ -9,7 +9,6 @@ type NavBarProps={
 
 function NavItem({icon,label,isSelected}:NavBarProps){
     const Icon=icon;
-    console.log(isSelected)
     return(
         <button onClick={()=>!isSelected} className="flex flex-col items-center justify-center gap-1">
             <Icon/>

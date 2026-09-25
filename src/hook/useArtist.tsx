@@ -1,19 +1,31 @@
 import { useEffect, useState } from "react"
-import { getArtists, getPopularArtists } from "../service/deezer"
+import { getArtists, getPopularArtists } from "../service/deezer/artists"
+
 
 
 export default function useArtists(step:Step,search:string){
     const [artists,setArtists]=useState<MediaItem[]>([])
     const [popularArtists,setPopularArtists]=useState<MediaItem[]>([])
     const [isLoading,setIsLoading]=useState(true)
+    const [error, setError] = useState<string | null>(null)
+
     useEffect(()=>{
 
         const fetchArtist= async ()=>{
-            setIsLoading(true)
-            const popular= await getPopularArtists()
-            setArtists(popular)
-            setPopularArtists(popular)
-            setIsLoading(false)
+            try{
+                setIsLoading(true)
+                setError(null)
+                const popular= await getPopularArtists()
+                setArtists(popular)
+                setPopularArtists(popular)
+
+            }catch(e){
+                setArtists([])
+                setPopularArtists([])
+                setError("Something went wrong while loading artists.")
+            }finally{
+                setIsLoading(false)
+            }
         }
         fetchArtist()
     },[])
@@ -25,15 +37,26 @@ export default function useArtists(step:Step,search:string){
 
         if(search.trim() == ""){
             setArtists(popularArtists)
+            setError(null)
             return ()=>{cancelled=true}
         }
 
         setIsLoading(true)
+        setError(null)
         const timer=setTimeout(async () => {
-            const searchResults = await getArtists(search)
-            if (cancelled) return
-            setArtists(searchResults.slice(0,6))
-            setIsLoading(false)
+            try{
+                const searchResults = await getArtists(search)
+                if (cancelled) return
+                setArtists(searchResults.slice(0,6))
+                setIsLoading(false)
+
+            }catch{
+                if(cancelled) return
+                setArtists([])
+                setError("Something went wrong while searching artists.")
+            }finally{
+                if(!cancelled) setIsLoading(false)
+            }
         },300)
 
         return ()=> {
@@ -42,5 +65,5 @@ export default function useArtists(step:Step,search:string){
         }
     },[search,step,popularArtists])
 
-    return {artists,isLoading}
+    return {artists,isLoading,error}
 }

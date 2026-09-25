@@ -1,6 +1,6 @@
-import buildDeezerUrl from "../lib/deezer"
-import { dedupeByName, mapMediaItem, normalize } from "../utils/artistsUtils"
-
+import buildDeezerUrl from "../../lib/deezer"
+import type { ArtistResponse } from "../../types/deezer"
+import { dedupeByName, mapArtistItem, normalize } from "../../utils/deezer"
 
 async function fetchArtists(name: string): Promise<MediaItem[]> {
     const artistUrl = buildDeezerUrl({ q: name }, 'artist')
@@ -8,10 +8,22 @@ async function fetchArtists(name: string): Promise<MediaItem[]> {
 
     if (!response.ok) return []
 
-    const data: DeezerResponse = await response.json()
+    const data: ArtistResponse = await response.json()
     if (!data.data || data.data.length == 0) return []
 
-    return data.data.map(mapMediaItem)
+    return data.data.map(mapArtistItem)
+}
+
+async function getExactArtist(name: string): Promise<MediaItem | null> {
+    try {
+        const results = await fetchArtists(name)
+        const exact = results.filter(
+            (artist) => normalize(artist.name) == normalize(name)
+        )
+        return dedupeByName(exact)[0] || null
+    } catch (e) {
+        throw new Error("Failed to fetch artists.")
+    }
 }
 
 export async function getArtists(name: string) {
@@ -37,17 +49,6 @@ export async function getArtists(name: string) {
     }
 }
 
-async function getExactArtist(name: string): Promise<MediaItem | null> {
-    try {
-        const results = await fetchArtists(name)
-        const exact = results.filter(
-            (artist) => normalize(artist.name) == normalize(name)
-        )
-        return dedupeByName(exact)[0] || null
-    } catch (e) {
-        throw new Error("Failed to fetch artists.")
-    }
-}
 
 const POPULARARTISTS = ["The Weeknd", "Billie Eilish", "Ariana Grande", "Lady Gaga", "Beyoncé", "Bruno Mars"]
 export async function getPopularArtists() {
