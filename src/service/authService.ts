@@ -41,7 +41,12 @@ export async function authWithGoogle (){
     const authData=userAuth.user;
     const docSnap = await getUser(authData.uid);
     if(!docSnap.exists()){
-        const userData= await registerUser(authData?.uid,authData.displayName,authData.email,authData.photoURL);
+        const userData= await registerUser(
+            authData?.uid,
+            authData.displayName ?? "User",
+            authData.email ?? "",
+            authData.photoURL ?? ""
+        );
         return {uid:authData.uid,...userData} as User;
     } else {
         return {uid:authData.uid,...docSnap.data()} as User;

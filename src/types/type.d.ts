@@ -8,7 +8,7 @@ type LabelProps={
 }
 
 type MediaItem ={
-    name?:string,
+    name:string,
     photo?:string,
     artist?:string,
     url?:string

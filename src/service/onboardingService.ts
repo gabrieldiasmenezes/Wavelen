@@ -2,7 +2,7 @@ import { doc, updateDoc } from "firebase/firestore"
 import { db } from "../lib/firebase"
 
 type CompleteOnboardingProps={
-    uid?:string
+    uid:string
     genres:string[],
     artists:MediaItem[]
 }

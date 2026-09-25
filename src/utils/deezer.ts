@@ -12,8 +12,8 @@ export function mapArtistItem(media:DeezerArtist) : MediaItem{
 export function mapTrackItem(media:DeezerTrack) : MediaItem{
     return{
         name: media.title,
-        artist:media.artist.name,
-        photo: media.album.cover_xl,
+        artist:media.artist.name ?? "",
+        photo: media.album.cover_xl ?? "",
         url: media.link
     }
 }
