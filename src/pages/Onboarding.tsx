@@ -1,59 +1,65 @@
-import Header from "../components/Onboarding/Header"
-import SelectionGrid from "../components/Onboarding/SelectionGrid"
-import NavigationControls from "../components/Onboarding/NavigationControls"
-import useOnboarding from "../hooks/useOnboarding"
-import SearchBar from "../components/ui/SearchBar"
+import SoundWave from "../components/ui/SoundWave";
+import {MoveLeft} from "lucide-react";
+import SearchInput from "../components/SearchInput";
+import ProgressBar from "../components/onboarding/ProgressBar";
+import useOnboarding from "../hook/useOnboarding";
+import SelectionGrid from "../components/onboarding/SelectionGrid";
+import NavigateButton from "../components/onboarding/NavigateButton";
+
+export default function Onboarding(){
+    const {
+        search,setSearch,
+        step,MINSELECTED,
+        selectedLength,handleBack
+    } = useOnboarding()
+    const back= step == "artist"
 
 
-export default function Onboarding() {
-  const {current,MIN_SELECTION,} = useOnboarding()
+ 
+    return(
+        <main className="flex flex-col w-full h-screen md:px-40">
+            <div className="absolute flex top-5 left-5">
+                <button 
+                    onClick={handleBack}
+                    disabled={!back}
+                    className={`flex py-3 px-5 rounded-3xl items-center justify-center gap-2 transition-colors duration-100 ${back ? "bg-primary hover:bg-primary/10" : "bg-card text-border cursor-auto"}`}>
+                    <MoveLeft size={20}/>
 
-  return (
-    <main className="flex min-h-screen justify-center bg-background px-6 py-10">
-      <div className="w-full max-w-6xl">
-        <div className="flex flex-col items-center gap-8">
-
-          <Header
-            title={current.title}
-            subtitle={current.subtitle}
-          />
-
-          <div className="w-full max-w-2xl">
-            <div className="mb-2 flex justify-between text-sm text-muted-foreground">
-
-              <span> {current.step} </span>
-              <span> {current.progress}% </span>
-
+                </button>
             </div>
-            <div className="h-2 overflow-hidden rounded-full bg-secondary">
-              <div
-                className="h-full rounded-full bg-primary transition-all duration-500"
-                style={{ width: `${current.progress}%` }}
-              />
+            <div className="flex w-full items-center justify-center py-10">
+                <div className="flex p-2 items-center justify-center border border-card rounded-2xl bg-primary">
+                    <SoundWave barStyle="bg-background text-lg" />
+                </div>
             </div>
-          </div>
 
-          <SearchBar
-            value={current.search}
-            onChange={current.setSearch}
-            placeholder={current.placeholder}
-          />
+            <div className="flex flex-col justify-center items-center text-center gap-5 p-10">
+                <h1 className="text-5xl">What do you love listening to?</h1>
+                <p className=" md:px-[20%]">Choose a few music genres and artists so Wavelen can personalize your recommendations.</p>
+            </div>
 
-          <div className="flex w-full justify-between text-sm">
+            <ProgressBar step={step}/>
 
-            <span className="text-foreground">
-              {current.chosen.length}/{MIN_SELECTION} selected
-            </span>
+            <div className="flex p-5">
+                <SearchInput
+                    placeholder={step === "genre" ? "search genres..." : "search artists..."}
+                    search={search}
+                    setSearch={setSearch}
+                />
+            </div>
 
-            <span className="text-muted-foreground">
-              Select at least {MIN_SELECTION}
-            </span>
+            <div className="flex flex-col py-1 px-5 md:px-0">
+                <div className="flex w-full px-3 justify-between">
+                    <p className="text-sm font-light text-foreground">{selectedLength} / {MINSELECTED} selecteds</p>
+                    <p className="text-sm">Select at least 3</p>
+                </div>
+            </div>
 
-          </div>
-          <SelectionGrid/>
-          <NavigationControls/>
-        </div>
-      </div>
-    </main>
-  )
+            <div className="flex px-10 pt-10 md:px-0">
+                <SelectionGrid/>
+            </div>
+
+            <NavigateButton/>
+        </main>
+    )
 }

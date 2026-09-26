@@ -1,6 +1,7 @@
-const BASE_URL = "/api/deezer"
+const BASE_URL="/api/deezer"
 
 
+type DeezerEndpoint = "artist" | "search"
 export default function buildDeezerUrl(params: Record<string,string>,endpoint:DeezerEndpoint): string {
 
   const query = new URLSearchParams(params)
@@ -8,4 +9,3 @@ export default function buildDeezerUrl(params: Record<string,string>,endpoint:De
   return `${BASE_URL}/${endpoint}?${query}`
 
 }
-

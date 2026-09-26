@@ -1,6 +1,10 @@
-import AuthGate from "./routes/AuthGate";
+import AuthGate from "./routes/AuthRoute";
 
 
 export default function App() {
-  return <AuthGate />;
+
+
+  return(
+    <AuthGate/>
+  )
 }

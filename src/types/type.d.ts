@@ -1,37 +1,21 @@
-interface MusicProfile {
-    genres: string[];
-    artists: string[];
+type Step="genre" | "artist"
+
+type SearchProps={
+    search:string
+}
+type LabelProps={
+    label:string
 }
 
-interface UserData {
-  uid: string;
-  displayName: string | null;
-  email: string | null;
-  photoURL: string | null;
-  onboardingCompleted: boolean;
-  musicProfile: MusicProfile;
+type MediaItem ={
+    name:string,
+    photo?:string,
+    artist?:string,
+    url?:string
 }
 
-interface MusicTrack {
-  id: number | string
-  name: string
-  artist: string
-  album: string
-  cover: string | null
-  previewUrl: string | null
-  url?: string
-  tags?: string[]
-}
 
-interface TrackItem {
-  id: string;
-  name: string;
-  photo: string | null;
-}
-
-type DeezerEndpoint = "search" | "artist"
-
-
-type ToggleButtonProps = {
-  active:boolean
+type ActiveButtonProps={
+    isActive:boolean,
+    onClick:(e: React.MouseEvent<HTMLButtonElement>)=>void
 }
