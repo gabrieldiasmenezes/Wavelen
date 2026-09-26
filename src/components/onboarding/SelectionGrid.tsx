@@ -9,6 +9,13 @@ export default function SelectionGrid(){
     } = useOnboarding()
 
     if (error){
+        return (
+            <div className="flex w-full items-center justify-center py-20">
+                <div className="flex p-2 items-center justify-center border border-card rounded-2xl bg-primary">
+                    <h1 className="text-red-700">Error in server</h1>
+                </div>
+            </div>
+        )
         
     }
     if (isLoading){

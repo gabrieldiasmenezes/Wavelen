@@ -21,7 +21,7 @@ async function getExactArtist(name: string): Promise<MediaItem | null> {
             (artist) => normalize(artist.name) == normalize(name)
         )
         return dedupeByName(exact)[0] || null
-    } catch (e) {
+    } catch{
         throw new Error("Failed to fetch artists.")
     }
 }
@@ -44,7 +44,7 @@ export async function getArtists(name: string) {
         )
 
         return dedupeByName(partialMatches)
-    } catch (e) {
+    } catch{
         throw new Error("Failed to fetch artists.")
     }
 }
@@ -56,7 +56,7 @@ export async function getPopularArtists() {
         const artists = POPULARARTISTS.map(getExactArtist)
         const result = await Promise.all(artists)
         return result.filter(Boolean) as MediaItem[]
-    } catch (e) {
+    } catch{
         throw new Error("Failed to fetch popular artists.")
     }
 }

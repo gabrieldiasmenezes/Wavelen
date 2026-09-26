@@ -26,7 +26,7 @@ export default function useSearch({search}:SearchProps){
                 ])
 
                 setResults([...artists,...tracks])
-            }catch(error){
+            }catch{
                 setResults([])
                 setError("Something went wrong while searching.");
             }finally{

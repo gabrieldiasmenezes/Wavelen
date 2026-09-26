@@ -1,9 +1,10 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { CircleCheck, CirclePlus } from "lucide-react";
 
+const MotionPlus=motion(CirclePlus)
+const MotionCheck=motion(CircleCheck)
+
 export default function SavedButton({isActive,onClick}:ActiveButtonProps){
-    const MotionPlus=motion(CirclePlus)
-    const MotionCheck=motion(CircleCheck)
     return(
         <motion.button 
             onClick={onClick} 

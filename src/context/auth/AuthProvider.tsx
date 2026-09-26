@@ -1,5 +1,4 @@
 import { useEffect, useState, type ReactNode } from "react";
-
 import authError from "../../utils/authError";
 import * as authService from "../../service/authService";
 import { onAuthStateChanged, type AuthError } from "firebase/auth";
@@ -24,13 +23,12 @@ export default function AuthProvider({children}:AuthProviderProps){
                 ...docSnap.data()
             });
         }catch(e){
-            throw e
+            setError(authError(e as AuthError));
         }finally{
             setLoading(false)
         }
     }
     useEffect(() => {
-        setLoading(true);
         const unsubscribe=onAuthStateChanged(auth, async (currentUser)=>{
             try{
                 if(!currentUser) {
@@ -44,7 +42,6 @@ export default function AuthProvider({children}:AuthProviderProps){
 
             }catch(e){
                 setError(authError(e as AuthError));
-                console.log(e);
                 setLoading(false)
             }
         })

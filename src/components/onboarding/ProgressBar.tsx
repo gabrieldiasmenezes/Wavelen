@@ -10,7 +10,7 @@ export default function ProgressBar({step}:ProgressBarProps){
             setCurrentProgress(Math.min(100,Math.max(0,currentProgress)))
         },100)
         return ()=>clearTimeout(timer);
-    },[])
+    },[currentProgress])
     return(
         <div className="flex flex-col px-10 gap-2 md:px-20 ">
             <div className="flex w-full px-3 justify-between">

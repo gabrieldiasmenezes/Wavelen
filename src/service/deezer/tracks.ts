@@ -19,7 +19,7 @@ export async function getTracks(name:string){
         const results= await fetchTracks(name)
         if (!results || results.length === 0) return []
         return dedupeByName(results)
-    }catch (e) {
+    }catch{
         throw new Error("Failed to fetch artists.")
     }
 }
