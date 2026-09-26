@@ -5,7 +5,7 @@ import * as authService from "../../service/authService";
 import { onAuthStateChanged, type AuthError } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import type { User } from "../../types/user";
-import { AuthContext } from "./authContext";
+import { AuthContext } from "./AuthContext";
 
 type AuthProviderProps={
     children:ReactNode
